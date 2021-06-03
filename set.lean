@@ -27,5 +27,21 @@ eq_of_subset_of_subset
 )
 (assume x,
  assume h: x ∈ A,
- show x ∈ (A ∪ A),from or.inl h)
+ show x ∈ (A ∪ A),from or.inl h) -- or.inl := or introducition left
 
+
+example : A ∪ (∅: set U) = A :=
+eq_of_subset_of_subset
+(assume x,
+ assume h: x ∈ A ∪ ∅,
+ have h2: x ∈ A ∨ x ∈ (∅: set U), from h,
+ show x ∈ A, from or.elim h2
+  (assume h2_1: x ∈ A,
+   show x ∈ A, from h2_1)
+  (assume h2_2: x ∈ (∅: set U),
+   show x ∈ A, from false.elim h2_2 --> x ∈ ∅ = false, so false -> anything
+  )
+)
+(assume x,
+assume h: x ∈ A,
+show x ∈ A ∪ ∅, from or.inl h)
