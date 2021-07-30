@@ -4,6 +4,7 @@ https://leanprover.github.io/logic_and_proof/functions_in_lean.html
 
 by Jeremy Avigad, Robert Y. Lewis, and Floris van Doorn
 -/
+universe u
 variables {W X Y Z : Type}
 
 /-
@@ -33,7 +34,10 @@ theorem comp.left_id (f: X → Y) : id ∘ f = f := rfl
 
 theorem comp.right_id (f: X → Y) :f ∘ id = f := rfl
 
-def injective (f : X → Y) : Prop :=
+def injective {α : Type} {β : Type} (f : α → β) : Prop :=
+  ∀ a a' : α, f a = f a' → a = a' 
+
+def injective' (f : X → Y) : Prop :=
   ∀ x₁ : X, ∀ x₂ :X , f x₁ = f x₂ → x₁ = x₂
 
 -- We can not write x₁ ∈ X, use x₁ : X instead
@@ -97,10 +101,32 @@ and.intro injective_id surjective_id
 -- prove compisition of injective functions
 -- is injective
 
+-- Why can not prove this?  Isn't this a tautology?
+lemma injective_g {g : Y → Z} (Hg: injective g) : injective (g) :=
+assume y₁ y₂,
+assume h: g y₁ = g y₂,
+assume h2: injective g
+show y₁ = y₂, from h2 h
+
+-- theorem: if g and f are both injective, g ∘ f is injective
 theorem injective_comp {g : Y → Z} {f : X → Y}
-    (Hg : injective g) (Hf : injective f) :
-    injective (g ∘ f) :=
-assume x₁ x₂,
-assume : (g ∘ f) x₁ = (g ∘ f) x₂,
-have f x₁ = f x₂, from Hg this,
+    (Hg : injective g) (Hf : injective f) : injective (g ∘ f) :=
+assume x₁ x₂ : X,
+assume y₁ y₂ : Y, -- This ': Y' is necessary for the following 
+assume h2 : g y₁ = g y₂,
+assume h1 : (g ∘ f) x₁ = (g ∘ f) x₂,
+-- If f x₁ = f x₂ → x₁ = x₂ from Hf
+-- If g x₂ = g x₂ → x₁ = x₂ from Hg
+-- If (g ∘ f) x₁ = (g ∘ f) x₂ → x₁ = x₂ 
+-- How to prove the following prop?
+--  If (g ∘ f) x₁ = (g ∘ f) x₂ → f x₁ = f ×2
+-- Since g x₁ = g x₂ → x₁ = x₂ by Hg
+-- ALso f ×₁ = f x₂ → x₁ = x₂ by Hf
+have y₁ = y₂, from h2,
+have f x₁ = f x₂, from Hg h1,
 show x₁ = x₂, from Hf this 
+
+example (q r : Prop) : q ∧ r → q :=
+assume h: q ∧ r,
+have r, from and.right h, 
+show q, from and.left h
