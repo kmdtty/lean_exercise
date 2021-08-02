@@ -4,8 +4,8 @@ https://leanprover.github.io/logic_and_proof/functions_in_lean.html
 
 by Jeremy Avigad, Robert Y. Lewis, and Floris van Doorn
 -/
-universe u
-variables {W X Y Z : Type}
+universes u v
+variables {W X Y Z α β: Sort*}
 
 /-
 def comp (f : Y → Z) (g: X → Y) : X → Z :=
@@ -34,21 +34,26 @@ theorem comp.left_id (f: X → Y) : id ∘ f = f := rfl
 
 theorem comp.right_id (f: X → Y) :f ∘ id = f := rfl
 
-def injective {α : Type} {β : Type} (f : α → β) : Prop :=
-  ∀ a a' : α, f a = f a' → a = a' 
+-- The double '{}', ⦃ ⦄ is super important
+-- If we write ∀ x₁ : X, ∀ x₂ : X, injective_cmp is not provable
+def injective {X Y} (f : X → Y) : Prop :=
+  ∀ ⦃ x₁ x₂ ⦄, f x₁ = f x₂ → x₁ = x₂ 
+
+/-- A function `f : α → β` is called injective if `f x = f y` implies `x = y`. -/
+--@[reducible] def injective (f : α → β) : Prop := ∀ ⦃a₁ a₂⦄, f a₁ = f a₂ → a₁ = a₂
 
 def injective' (f : X → Y) : Prop :=
-  ∀ x₁ : X, ∀ x₂ :X , f x₁ = f x₂ → x₁ = x₂
+  ∀ ⦃ x₁ x₂ ⦄, f x₁ = f x₂ → x₁ = x₂
 
 -- We can not write x₁ ∈ X, use x₁ : X instead
 def injective2 (f: X → Y) : Prop :=
- ∀ x₁ : X, ∀ x₂ :X, x₁ ≠ x₂ → f x₁ ≠ f x₂
+ ∀ ⦃ x₁ x₂ ⦄, x₁ ≠ x₂ → f x₁ ≠ f x₂
 
 def injective3 (f: X → Y) : Prop :=
- ∀ a a' : X, a ≠ a' → f a ≠ f a'
+ ∀ ⦃ a a' ⦄, a ≠ a' → f a ≠ f a'
 
 def injective4 (f: X → Y) : Prop :=
- ∀ a a' : X, f a = f a' → a = a'
+ ∀ ⦃ a a' ⦄, f a = f a' → a = a'
 
 -- We can eliminate writing :Y, :X
 def surjective (f: X → Y) : Prop :=
@@ -87,7 +92,7 @@ show id a ≠ id a', from H
 theorem injective_id4 : injective4 (@id X) :=
 assume a a',
 assume H : id a = id a',
-show a = a', from H 
+show a = a', from H
 
 -- prove identity function is subjective
 theorem surjective_id : surjective (@id X) :=
@@ -102,18 +107,19 @@ and.intro injective_id surjective_id
 -- is injective
 
 -- Why can not prove this?  Isn't this a tautology?
-lemma injective_g {g : Y → Z} (Hg: injective g) : injective (g) :=
-assume y₁ y₂,
-assume h: g y₁ = g y₂,
-assume h2: injective g
-show y₁ = y₂, from h2 h
+-- lemma injective_g   {g : Y → Z} 
+--                  (Hg: injective g) : injective (g) :=
+--assume y₁ y₂,
+--assume h: g y₁ = g y₂,
+--show y₁ = y₂, from h Hg
 
 -- theorem: if g and f are both injective, g ∘ f is injective
 theorem injective_comp {g : Y → Z} {f : X → Y}
     (Hg : injective g) (Hf : injective f) : injective (g ∘ f) :=
 assume x₁ x₂ : X,
-assume y₁ y₂ : Y, -- This ': Y' is necessary for the following 
-assume h2 : g y₁ = g y₂,
+--assume y₁ y₂ : Y, -- This ': Y' is necessary for the following 
+--assume  h2: g y₁ = g y₂,
+--have y₁ = y₂, from h2 Hg,
 assume h1 : (g ∘ f) x₁ = (g ∘ f) x₂,
 -- If f x₁ = f x₂ → x₁ = x₂ from Hf
 -- If g x₂ = g x₂ → x₁ = x₂ from Hg
@@ -122,7 +128,6 @@ assume h1 : (g ∘ f) x₁ = (g ∘ f) x₂,
 --  If (g ∘ f) x₁ = (g ∘ f) x₂ → f x₁ = f ×2
 -- Since g x₁ = g x₂ → x₁ = x₂ by Hg
 -- ALso f ×₁ = f x₂ → x₁ = x₂ by Hf
-have y₁ = y₂, from h2,
 have f x₁ = f x₂, from Hg h1,
 show x₁ = x₂, from Hf this 
 
