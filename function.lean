@@ -135,3 +135,43 @@ example (q r : Prop) : q ∧ r → q :=
 assume h: q ∧ r,
 have r, from and.right h, 
 show q, from and.left h
+
+#check Type
+
+
+
+
+variable U : Type 
+variable P : U → Prop
+variable Q : Prop 
+-- introduce a new variable y and prove Q
+-- under the assumption that P y holds.
+example (h1 : ∃ x, P x) (h2: ∀ x, P x → Q) : Q :=
+exists.elim h1
+  (assume (y : U) (h: P y),
+    have h3 : P y → Q, from h2 y,
+    show Q, from h3 h)
+
+
+example (h1: ∃ x, P x) (h2: ∀ x, P x → Q) : Q :=
+exists.elim h1 (assume y h, h2 y h)
+
+example (h1: ∃ x, P x) (h2: ∀ x, P x → Q) : Q :=
+exists.elim h1 $
+assume y h, h2 y h
+
+--def surjective (f: X → Y) : Prop :=
+-- ∀ y, ∃ x, f x = y
+-- What is "$"?
+--   -> It is a syntax suger of '( some proof )'
+theorem surjective_comp {g : Y → Z} {f: X → Y}
+  (hg: surjective g) (hf: surjective f) :
+  surjective (g ∘ f) :=
+  assume z,
+  exists.elim (hg z) $
+  assume y (hy : g y = z),
+  exists.elim (hf y) $
+  assume x (hx : f x = y),
+  have g (f x) = z, from eq.subst (eq.symm hx) hy,
+  show ∃ x, g (f x) = z, from exists.intro x this
+
