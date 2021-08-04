@@ -5,7 +5,7 @@ https://leanprover.github.io/logic_and_proof/functions_in_lean.html
 by Jeremy Avigad, Robert Y. Lewis, and Floris van Doorn
 -/
 universes u v
-variables {W X Y Z α β: Sort*}
+variables {A B W X Y Z α β: Sort*}
 
 /-
 def comp (f : Y → Z) (g: X → Y) : X → Z :=
@@ -175,3 +175,19 @@ theorem surjective_comp {g : Y → Z} {f: X → Y}
   have g (f x) = z, from eq.subst (eq.symm hx) hy,
   show ∃ x, g (f x) = z, from exists.intro x this
 
+
+  /--
+   Theorem: 
+   Let f: A → B, g : B → A,
+   f ∘ g = id B → surgective f ∧ injective g. 
+  -/
+theorem id_comp_surj_inj 
+  {f: A → B} {g: B → A} : 
+  f ∘ g = (@id B) → surjective (f ∘ g) := --surjective f ∧ injective g:=
+assume a : A,
+assume b₁ (hb1: g b₁ = a),
+assume b₂ (hb2: (f ∘ g) b₁ = b₂),
+assume h1: (f ∘ g) b₁ = id b₂,
+have h2: f (g b₁) = b₂, from h1,
+show ∃ b₁, f (g b₁) = b₂, from exists.intro b₁ h2
+-- have h3: b₁ = b₂, from
