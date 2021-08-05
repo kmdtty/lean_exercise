@@ -61,7 +61,10 @@ assume h1: injective (g ∘ f),
 assume a₁ a₂ : A,
 assume h2: (g ∘ f) a₁ = (g ∘ f) a₂,
 have h3 : a₁ = a₂, from h1 h2,
-sorry
+assume h4: f a₁ = f a₂,
+have h5: g (f a₁) = g (f a₂), from h4 refl,
+show a₁ = a₂, from h1 h5 
+
 --assume h4: f a₁ = f a₂,
 --have h5 : (g ∘ f) a₁ = (g ∘ f) a₂ → a₁ = a₂, from h1,
 --  = g (f a₂),
