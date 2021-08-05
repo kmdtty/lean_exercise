@@ -7,14 +7,22 @@ universes u v
 -- Sort, Sort*, Type, Type* ?
 variables {A B C W X Y Z α β: Sort*}
 
+--def injective {X Y} (f : X → Y) : Prop :=
+--  ∀ ⦃ x₁ x₂ ⦄, f x₁ = f x₂ → x₁ = x₂ 
+
 def injective (f: X → Y) : Prop :=
- ∀ ⦃x₁ x₂⦄ , f(x₁) = f(x₂) → x₁ = x₂
+ ∀ ⦃ x₁ x₂ ⦄ , f x₁ = f x₂ → x₁ = x₂
+
+--@[reducible] def injective (f : α → β) : Prop := 
+--∀ ⦃a₁ a₂⦄, f a₁ = f a₂ → a₁ = a₂
 
 def surjective (f: X → Y) : Prop :=
  ∀ y, ∃ x, f x = y
 
 theorem injective_id : injective(@id X) :=
-sorry
+assume x₁ x₂,
+assume h1: id x₁ = id x₂,
+show x₁ = x₂, from h1
 
 theorem injective_comp {f: X → Y} {g: Y→ Z}
 (hg: injective f) (hg: injective g) :
@@ -48,8 +56,17 @@ Let f: A→B, g: B→C
 -- (1)
 theorem comp_injective_1st 
 {f: A → B} {g: B → C} :
-injective(g ∘ f) → injective f :=
+injective (g ∘ f) → injective f :=
+assume h1: injective (g ∘ f),
+assume a₁ a₂ : A,
+assume h2: (g ∘ f) a₁ = (g ∘ f) a₂,
+have h3 : a₁ = a₂, from h1 h2,
 sorry
+--assume h4: f a₁ = f a₂,
+--have h5 : (g ∘ f) a₁ = (g ∘ f) a₂ → a₁ = a₂, from h1,
+--  = g (f a₂),
+--show a₁ = a₂, from h5 h1
+
 
 --(2)
 theorem comp_surjective_2nd
