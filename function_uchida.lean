@@ -68,4 +68,9 @@ show a₁ = a₂, from h1 h5
 theorem comp_surjective_2nd
 {f: A → B} {g: B → C} :
 surjective(g ∘ f) → surjective g :=
-sorry
+assume a : A,
+assume c,
+assume h1: surjective (g ∘ f),
+have h3: ∀c, ∃ a, g (f a) = c, from h1, 
+let  b := f a,
+show ∀c, ∃ b, g b = c, from h3
