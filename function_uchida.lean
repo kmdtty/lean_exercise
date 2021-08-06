@@ -59,17 +59,10 @@ theorem comp_injective_1st
 injective (g ∘ f) → injective f :=
 assume h1: injective (g ∘ f),
 assume a₁ a₂ : A,
-assume h2: (g ∘ f) a₁ = (g ∘ f) a₂,
-have h3 : a₁ = a₂, from h1 h2,
 assume h4: f a₁ = f a₂,
-have h5: g (f a₁) = g (f a₂), from h4 refl,
+-- Why can not say this??
+have h5: g (f a₁) = g (f a₂), from h4,
 show a₁ = a₂, from h1 h5 
-
---assume h4: f a₁ = f a₂,
---have h5 : (g ∘ f) a₁ = (g ∘ f) a₂ → a₁ = a₂, from h1,
---  = g (f a₂),
---show a₁ = a₂, from h5 h1
-
 
 --(2)
 theorem comp_surjective_2nd
