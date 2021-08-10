@@ -36,14 +36,17 @@ sorry
 -/
 theorem id_comp_surj_inj 
   {f: A → B} {g: B → A} : 
-  f ∘ g = (@id B) →  surjective f ∧ injective g:=
-assume a : A,
-assume b₁ (hb1: g b₁ = a),
-assume b₂ (hb2: (f ∘ g) b₁ = b₂),
-assume h1: (f ∘ g) b₁ = id b₂,
-have h2: f (g b₁) = b₂, from h1,
-sorry
---show ∃ b₁, f (g b₁) = b₂, from exists.intro b₁ h2
+  f ∘ g = @id B →  surjective f  :=
+assume b₁ b₂ : B,
+assume a: A,
+--assume b₁ (hb1: g b₁ = a),
+--assume b₂ (hb2: (f ∘ g) b₁ = b₂),
+assume h1: f ∘ g = @id B,
+have h2: f (g b₁) = id b₁, from congr_fun h1 b₁,
+have h3: f (g b₁) = b₁, from h2,
+have hb2: ∃ a, g b₁ = a, 
+show ∃a, f (a) = b₁, from congr_fun h3 hb2
+--show ∃ a, f (a) = b₁, from  h4
 
 
 /-
@@ -61,7 +64,8 @@ assume h1: injective (g ∘ f),
 assume a₁ a₂ : A,
 assume h4: f a₁ = f a₂,
 -- Why can not say this??
-have h5: g (f a₁) = g (f a₂), from h4,
+-- have h5: g (f a₁) = g (f a₂), from  h4,
+have h5: g (f a₁) = g (f a₂), from congr_arg g h4,
 show a₁ = a₂, from h1 h5 
 
 --(2)
@@ -69,8 +73,10 @@ theorem comp_surjective_2nd
 {f: A → B} {g: B → C} :
 surjective(g ∘ f) → surjective g :=
 assume a : A,
-assume c,
+assume c : C,
 assume h1: surjective (g ∘ f),
 have h3: ∀c, ∃ a, g (f a) = c, from h1, 
-let  b := f a,
-show ∀c, ∃ b, g b = c, from h3
+-- assume b: B,
+--assume h4: b = f(a), 
+let b := f(a),
+show ∀c, ∃ b, g b = c,from exists.intro b h3 h4
