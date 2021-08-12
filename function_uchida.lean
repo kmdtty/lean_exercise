@@ -24,30 +24,23 @@ assume x₁ x₂,
 assume h1: id x₁ = id x₂,
 show x₁ = x₂, from h1
 
-theorem injective_comp {f: X → Y} {g: Y→ Z}
-(hg: injective f) (hg: injective g) :
-injective (g ∘ f) :=
-sorry
+--theorem injective_comp {f: X → Y} {g: Y→ Z}
+--(hg: injective f) (hg: injective g) :
+--injective (g ∘ f) :=
+--sorry
 
 /--
  Theorem 6.1: 
   Let f: A → B, g : B → A,
   f ∘ g = id B → surgective f ∧ injective g. 
 -/
-theorem id_comp_surj_inj 
+theorem id_comp_surj
   {f: A → B} {g: B → A} : 
   f ∘ g = @id B →  surjective f  :=
-assume b₁ b₂ : B,
-assume a: A,
---assume b₁ (hb1: g b₁ = a),
---assume b₂ (hb2: (f ∘ g) b₁ = b₂),
 assume h1: f ∘ g = @id B,
+assume b₁ : B,
 have h2: f (g b₁) = id b₁, from congr_fun h1 b₁,
-have h3: f (g b₁) = b₁, from h2,
-have hb2: ∃ a, g b₁ = a, 
-show ∃a, f (a) = b₁, from congr_fun h3 hb2
---show ∃ a, f (a) = b₁, from  h4
-
+show ∃ a, f(a) = b₁, from exists.intro (g b₁) h2
 
 /-
 Exercise 6.2
