@@ -42,6 +42,22 @@ assume b₁ : B,
 have h2: f (g b₁) = id b₁, from congr_fun h1 b₁,
 show ∃ a, f(a) = b₁, from exists.intro (g b₁) h2
 
+theorem id_comp_injective
+{f: A → B} {g: B → A} :
+f ∘ g = @id B → injective g :=
+assume h1: f ∘ g = @id B,
+assume b₁ b₂ : B,
+assume h2: g b₁ = g b₂,
+have h3: f (g b₁) = f (g b₂), from congr_arg f h2,
+have h4: f (g b₁) = id b₁, from congr_fun h1 b₁,
+have h5: f (g b₂) = id b₂, from congr_fun h1 b₂,
+have h6: id b₁ = f (g b₂), from eq.subst h4 h3,
+have h7: id b₁ = id b₂, from eq.subst h5 h6,
+show b₁ = b₂, from h7
+--have id b₁ = f (g b₂), by rw [←h3, h4],
+--have id b₁ = id b₂, by rw [←h3,h4,h5],
+--show b₁ = b₂, by rewrite [h5,h4,h3]
+
 /-
 Exercise 6.2
 Let f: A→B, g: B→C
