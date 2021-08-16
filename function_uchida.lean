@@ -41,6 +41,10 @@ assume h1: f ∘ g = @id B,
 assume b₁ : B,
 have h2: f (g b₁) = id b₁, from congr_fun h1 b₁,
 show ∃ a, f(a) = b₁, from exists.intro (g b₁) h2
+/-
+let a := g b₁ in
+show ∃ a, f(a) = b₁, from exists.intro a h2
+-/
 
 theorem id_comp_injective
 {f: A → B} {g: B → A} :
@@ -55,7 +59,7 @@ have h6: id b₁ = f (g b₂), from eq.subst h4 h3,
 have h7: id b₁ = id b₂, from eq.subst h5 h6,
 show b₁ = b₂, from h7
 --have id b₁ = f (g b₂), by rw [←h3, h4],
---have id b₁ = id b₂, by rw [←h3,h4,h5],
+--by rw [←h3,h4,←h5],
 --show b₁ = b₂, by rewrite [h5,h4,h3]
 
 /-
@@ -85,7 +89,7 @@ assume a : A,
 assume c : C,
 assume h1: surjective (g ∘ f),
 have h3: ∀c, ∃ a, g (f a) = c, from h1, 
--- assume b: B,
+--assume b: B,
 --assume h4: b = f(a), 
-let b := f(a),
-show ∀c, ∃ b, g b = c,from exists.intro b h3 h4
+let b := f a in
+show ∀c, ∃ a, ∃ b, g (b) = c, from exists.intro b h3
