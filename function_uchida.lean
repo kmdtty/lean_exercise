@@ -1,4 +1,4 @@
-/-
+a/-
 Theorems/Examples from Fuichi, Uchida "Shugo to Iso" (2020).
 -/
 
@@ -40,11 +40,13 @@ theorem id_comp_surj
 assume h1: f ∘ g = @id B,
 assume b₁ : B,
 have h2: f (g b₁) = id b₁, from congr_fun h1 b₁,
+let a := g b₁ in
 show ∃ a, f(a) = b₁, from exists.intro (g b₁) h2
 /-
 let a := g b₁ in
 show ∃ a, f(a) = b₁, from exists.intro a h2
 -/
+
 
 theorem id_comp_injective
 {f: A → B} {g: B → A} :
@@ -85,11 +87,13 @@ show a₁ = a₂, from h1 h5
 theorem comp_surjective_2nd
 {f: A → B} {g: B → C} :
 surjective(g ∘ f) → surjective g :=
-assume a : A,
-assume c : C,
+--assume a : A,
+-- assume b : B,
 assume h1: surjective (g ∘ f),
-have h3: ∀c, ∃ a, g (f a) = c, from h1, 
---assume b: B,
---assume h4: b = f(a), 
-let b := f a in
-show ∀c, ∃ a, ∃ b, g (b) = c, from exists.intro b h3
+assume c : C,
+-- exists.elim (h1 c) $
+assume b (hb: g b = c),
+assume a (ha: f a = b),
+show ∃b, g (b) = c, from exists.intro b hb
+-- let b := f a in
+--have ∀c, ∃ b, g (b) = c, from exists.intro b h4
