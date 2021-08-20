@@ -39,6 +39,8 @@ theorem id_comp_surj
   f ∘ g = @id B →  surjective f  :=
 assume h1: f ∘ g = @id B,
 assume b₁ : B,
+-- congr_fun is a congruence rule for the simplifier, see:
+-- https://leanprover.github.io/theorem_proving_in_lean/quantifiers_and_equality.html#equality
 have h2: f (g b₁) = id b₁, from congr_fun h1 b₁,
 let a := g b₁ in
 show ∃ a, f(a) = b₁, from exists.intro a h2
@@ -78,7 +80,8 @@ injective (g ∘ f) → injective f :=
 assume h1: injective (g ∘ f),
 assume a₁ a₂ : A,
 assume h4: f a₁ = f a₂,
--- Why can not say this??
+-- We can not say the following equality on the image of the function g
+-- unless using congr_arg.
 -- have h5: g (f a₁) = g (f a₂), from  h4,
 have h5: g (f a₁) = g (f a₂), from congr_arg g h4,
 show a₁ = a₂, from h1 h5 
@@ -89,7 +92,8 @@ theorem comp_surjective_2nd
 surjective(g ∘ f) → surjective g :=
 assume h1: surjective (g ∘ f),
 have h2: ∀c, ∃a, g (f a) = c, from h1,
-exists elim h2 
-(assume a₁ (ha: ∀ c, g (f a₁) = c),
+exists.elim h2
+(assume a₁,
+ assume ha: ∀c, g (f a₁) = c,
  let b := f a₁ in
  show ∀c, ∃b, g (b) = c, from exists.intro b ha)
