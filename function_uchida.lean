@@ -1,4 +1,4 @@
-a/-
+/-
 Theorems/Examples from Fuichi, Uchida "Shugo to Iso" (2020).
 -/
 
