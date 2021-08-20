@@ -41,7 +41,7 @@ assume h1: f ∘ g = @id B,
 assume b₁ : B,
 have h2: f (g b₁) = id b₁, from congr_fun h1 b₁,
 let a := g b₁ in
-show ∃ a, f(a) = b₁, from exists.intro (g b₁) h2
+show ∃ a, f(a) = b₁, from exists.intro a h2
 /-
 let a := g b₁ in
 show ∃ a, f(a) = b₁, from exists.intro a h2
@@ -87,13 +87,9 @@ show a₁ = a₂, from h1 h5
 theorem comp_surjective_2nd
 {f: A → B} {g: B → C} :
 surjective(g ∘ f) → surjective g :=
---assume a : A,
--- assume b : B,
 assume h1: surjective (g ∘ f),
-assume c : C,
--- exists.elim (h1 c) $
-assume b (hb: g b = c),
-assume a (ha: f a = b),
-show ∃b, g (b) = c, from exists.intro b hb
--- let b := f a in
---have ∀c, ∃ b, g (b) = c, from exists.intro b h4
+have h2: ∀c, ∃a, g (f a) = c, from h1,
+exists elim h2 
+(assume a₁ (ha: ∀ c, g (f a₁) = c),
+ let b := f a₁ in
+ show ∀c, ∃b, g (b) = c, from exists.intro b ha)
