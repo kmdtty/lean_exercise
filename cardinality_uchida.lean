@@ -38,3 +38,9 @@ theorem iso_symmetry : A ∼ B → B ∼ A :=
 
 theorem iso_transivity : A ∼ B ∧ B ∼ C → A ∼ C :=
   sorry
+
+-- variables 0 1 : ℕ 
+
+-- the syntax of the following definition is wrong on {0 1} (at least)
+theorem powerset_equinumerous_set_of_function {f: A → {0 1}} : powerset(A) ∼ set f :=
+  sorry
