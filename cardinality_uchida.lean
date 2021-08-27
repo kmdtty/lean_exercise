@@ -2,12 +2,39 @@ import data.set
 open set 
 
 universe u
-variables {A B : Sort*}
+--variables {A B : Sort*}
+-- What's the diffrence between `Type` and `Type u` ?
 variables {α: Type u}
+-- A, B are subsets of α
+-- A ⊂ α ↔ A ∈ 𝒫(A)
+variables {A B C: set α}
 #check set α
 #check α
 #check set
 
-def areIso (X Y: Type u) : Prop :=
+-- are_equinumeros?
+def are_iso (X Y: set α) : Prop :=
   ∃ f : X → Y, ∃ g : Y → X, f ∘ g = @id Y ∧ g ∘ f = @id X
 
+#check are_iso A B
+#check powerset
+
+
+-- Define powerset
+variable {U : Type}
+
+def powerset2 (A : set U) : set (set U) := {B : set U | B ⊆ A}
+
+example (A B : set U) (h : B ∈ powerset2 A) : B ⊆ A :=
+h
+
+local infixr ` ∼ `:max := are_iso 
+
+theorem iso_reflexivity :  A ∼ A :=
+  sorry  
+
+theorem iso_symmetry : A ∼ B → B ∼ A :=
+  sorry
+
+theorem iso_transivity : A ∼ B ∧ B ∼ C → A ∼ C :=
+  sorry
