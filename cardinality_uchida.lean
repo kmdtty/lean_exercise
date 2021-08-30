@@ -1,5 +1,8 @@
 import data.set 
+import data.nat.basic
 open set 
+
+#check [1,2] 
 
 universe u
 --variables {A B : Sort*}
@@ -40,7 +43,15 @@ theorem iso_transivity : A ∼ B ∧ B ∼ C → A ∼ C :=
   sorry
 
 -- variables 0 1 : ℕ 
+/--
+inductive nat
+| zero : nat
+| succ (n : nat) : nat
 
+inductive bool : Type
+| ff : bool
+| tt : bool
+-/
 -- the syntax of the following definition is wrong on {0 1} (at least)
-theorem powerset_equinumerous_set_of_function {f: A → {0 1}} : powerset(A) ∼ set f :=
+theorem powerset_equinumerous_set_of_function {f: A → bool } : powerset(A) ∼ set f :=
   sorry
