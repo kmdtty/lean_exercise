@@ -53,5 +53,6 @@ inductive bool : Type
 | tt : bool
 -/
 -- the syntax of the following definition is wrong on {0 1} (at least)
-theorem powerset_equinumerous_set_of_function {f: A → bool } : powerset(A) ∼ set f :=
+
+theorem powerset_equinumerous_set_of_function {f: A → Prop } : powerset(A) ∼ set f :=
   sorry
