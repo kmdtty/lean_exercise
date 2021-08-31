@@ -42,6 +42,7 @@ theorem iso_symmetry : A ∼ B → B ∼ A :=
 theorem iso_transivity : A ∼ B ∧ B ∼ C → A ∼ C :=
   sorry
 
+#check A → Prop 
 -- variables 0 1 : ℕ 
 /--
 inductive nat
@@ -56,3 +57,18 @@ inductive bool : Type
 
 theorem powerset_equinumerous_set_of_function {f: A → Prop } : powerset(A) ∼ set f :=
   sorry
+
+#eval if 2 < 7 then 1 else 0 
+
+-- from src/algebra/indicator_function.lean
+-- to solve type error on "if .. then ..else.." we need the following two lines
+noncomputable theory 
+open_locale classical 
+/-- `indicator s f a` is `f a` if `a ∈ s`, `0` otherwise.  -/     
+def indicator {M} [has_zero M] (s : set α) (f : α → M) : α → M := λ x, if x ∈ s then f x else 0
+
+#check indicator
+--- wrong definition? 
+/-- `indicator2 s x` is `1` if `x ∈ s`, `0` otherwise. -/
+def indicator2 (s : set α) (x : α) : ℕ := if x ∈ s then 1 else 0
+
