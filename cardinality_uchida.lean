@@ -1,13 +1,16 @@
 import data.set 
 import data.nat.basic
+import set_theory.cardinal
+
 open set 
+open cardinal
 
 #check [1,2] 
 
 universe u
 --variables {A B : Sort*}
 -- What's the diffrence between `Type` and `Type u` ?
-variables {α: Type u}
+variables {α β : Type u}
 -- A, B are subsets of α
 -- A ⊂ α ↔ A ∈ 𝒫(A)
 variables {A B C: set α}
@@ -55,6 +58,7 @@ inductive bool : Type
 -/
 -- the syntax of the following definition is wrong on {0 1} (at least)
 
+--#check #α^#β
 theorem powerset_equinumerous_set_of_function {f: A → Prop } : powerset(A) ∼ set f :=
   sorry
 
@@ -72,3 +76,15 @@ def indicator {M} [has_zero M] (s : set α) (f : α → M) : α → M := λ x, i
 /-- `indicator2 s x` is `1` if `x ∈ s`, `0` otherwise. -/
 def indicator2 (s : set α) (x : α) : ℕ := if x ∈ s then 1 else 0
 
+-- * Exponentiation `c₁ ^ c₂` is defined by `cardinal.power_def α β : #α ^ #β = #(β → α)`.
+-- in src/set_theory/cardinal.lean
+
+
+/-- The cardinal exponential. `mk α ^ mk β` is the cardinal of `β → α`. -/ 
+
+-- protected def power (a b : cardinal.{u}) : cardinal.{u} :=                       
+-- quotient.lift_on₂ a b (λα β, mk (β → α)) $ assume α₁ α₂ β₁ β₂ ⟨e₁⟩ ⟨e₂⟩,         
+--  quotient.sound ⟨equiv.arrow_congr e₂ e₁⟩                                       
+--                                                                                 
+-- instance : has_pow cardinal cardinal := ⟨cardinal.power⟩                         
+-- local infixr ^ := @has_pow.pow cardinal cardinal cardinal.has_pow     -/
