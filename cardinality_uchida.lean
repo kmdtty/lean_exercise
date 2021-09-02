@@ -57,34 +57,36 @@ inductive bool : Type
 | tt : bool
 -/
 -- the syntax of the following definition is wrong on {0 1} (at least)
+noncomputable theory 
+open_locale cardinal
+#check cardinal.mk α
+#check #α^#β -- `#α` is the notation of `cardinal.mk α` in set_theory/cardinal
 
---#check #α^#β
-theorem powerset_equinumerous_set_of_function {f: A → Prop } : powerset(A) ∼ set f :=
+-- #check #α^#β
+theorem powerset_equinumerous_set_of_function {f: A → bool} : powerset(A) ∼ set f :=
   sorry
 
 #eval if 2 < 7 then 1 else 0 
 
--- from src/algebra/indicator_function.lean
 -- to solve type error on "if .. then ..else.." we need the following two lines
-noncomputable theory 
+-- `noncomuptable theory` is alread defined above to open_local cardinal
 open_locale classical 
-/-- `indicator s f a` is `f a` if `a ∈ s`, `0` otherwise.  -/     
-def indicator {M} [has_zero M] (s : set α) (f : α → M) : α → M := λ x, if x ∈ s then f x else 0
 
-#check indicator
 --- wrong definition? 
-/-- `indicator2 s x` is `1` if `x ∈ s`, `0` otherwise. -/
-def indicator2 (s : set α) (x : α) : ℕ := if x ∈ s then 1 else 0
+/-- `indicator' s x` is `1` if `x ∈ s`, `0` otherwise. -/
+def indicator' (s : set α) (x : α) : ℕ := if x ∈ s then 1 else 0
 
--- * Exponentiation `c₁ ^ c₂` is defined by `cardinal.power_def α β : #α ^ #β = #(β → α)`.
+
+-- The notation of power `^` is defined in set_theory/cardinal.lean
+
+--  instance : has_pow cardinal cardinal := ⟨cardinal.power⟩
+--  local infixr ^ := @has_pow.pow cardinal cardinal cardinal.has_pow
+
+-- Exponentiation `c₁ ^ c₂` is defined by `cardinal.power_def α β : #α ^ #β = #(β → α)`.
 -- in src/set_theory/cardinal.lean
-
+-- https://leanprover-community.github.io/mathlib_docs/set_theory/cardinal.html
 
 /-- The cardinal exponential. `mk α ^ mk β` is the cardinal of `β → α`. -/ 
 
--- protected def power (a b : cardinal.{u}) : cardinal.{u} :=                       
--- quotient.lift_on₂ a b (λα β, mk (β → α)) $ assume α₁ α₂ β₁ β₂ ⟨e₁⟩ ⟨e₂⟩,         
---  quotient.sound ⟨equiv.arrow_congr e₂ e₁⟩                                       
---                                                                                 
--- instance : has_pow cardinal cardinal := ⟨cardinal.power⟩                         
--- local infixr ^ := @has_pow.pow cardinal cardinal cardinal.has_pow     -/
+
+-- @[simp] theorem power_def (α β) : mk α ^ mk β = mk (β → α) := rfl                               
