@@ -91,10 +91,10 @@ theorem comp_surjective_2nd
 {f: A → B} {g: B → C} :
 surjective(g ∘ f) → surjective g :=
 assume h1: surjective (g ∘ f),
-have h2: ∀c, ∃a, g (f a) = c, from h1,
+have h2: ∀c:C, ∃a:A, g (f a) = c, from h1,
 assume a : A,
 let b := f a in
-show ∀c, ∃b, g (b) = c, from exists.intro b h2
+show ∀c:C, ∃b:B, g (b) = c, from exists.intro b h2
 /-
 exists.elim h2
 (assume a₁,
