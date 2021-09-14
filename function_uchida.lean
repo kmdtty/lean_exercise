@@ -91,12 +91,17 @@ theorem comp_surjective_2nd
 {f: A → B} {g: B → C} :
 surjective(g ∘ f) → surjective g :=
 assume h1: surjective (g ∘ f),
+-- can not exists.elim for
+-- ∀c:C,∃a:A, g(f a) = c, from h1
 assume c:C,
 have h2: ∃a:A, g (f a) = c, from h1 c,
-exists.elim h2 $
-assume (a₁:A) (h: g (f a₁) = c),
-let b := f a₁ in
-show ∃b:B, g(b) = c, from exists.intro b h
+-- exists.elim for ∃a:A
+exists.elim h2 (
+  assume a₁: A,
+  assume h: g (f a₁) = c,
+  let b := f a₁ in
+  show ∃b:B, g(b) = c, from exists.intro b h
+)
 --show ∀c:C, ∃b:B, g(b) = c, from h3
 -- have h3: ∀c:C,
 --have h3: ∀a:A, ∃b:B, f(a) = b, by rfl, 
