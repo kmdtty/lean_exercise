@@ -86,6 +86,17 @@ assume h4: f a₁ = f a₂,
 have h5: g (f a₁) = g (f a₂), from congr_arg g h4,
 show a₁ = a₂, from h1 h5 
 
+
+--(2) can not prove with this
+theorem can_not_prove_comp_surjective_2nd
+{f: A → B} {g: B → C} :
+surjective(g ∘ f) → surjective g :=
+assume h1: surjective (g ∘ f),
+have h2: ∀c:C, ∃a:A, g (f a) = c, from h1,
+assume a : A,
+let  b := f a in
+show ∀c:C, ∃b:B, g (b) = c, from exists.intro b h2
+
 --(2)
 theorem comp_surjective_2nd
 {f: A → B} {g: B → C} :
