@@ -62,8 +62,11 @@ open_locale cardinal
 #check cardinal.mk α
 #check #α^#β -- `#α` is the notation of `cardinal.mk α` in set_theory/cardinal
 
+#check 2
+
 -- #check #α^#β
-theorem powerset_equinumerous_set_of_function {f: A → bool} : powerset(A) ∼ set f :=
+theorem powerset_equinumerous_set_of_function
+ {f: A → bool} : powerset(A) ∼ set f :=
   sorry
 
 #eval if 2 < 7 then 1 else 0 
@@ -74,7 +77,7 @@ open_locale classical
 
 --- wrong definition? 
 /-- `indicator' s x` is `1` if `x ∈ s`, `0` otherwise. -/
-def indicator' (s : set α) (x : α) : ℕ := if x ∈ s then 1 else 0
+--def indicator' (s : set α) (x : α) : ℕ := if x ∈ s then 1 else 0
 
 
 -- The notation of power `^` is defined in set_theory/cardinal.lean
@@ -89,4 +92,30 @@ def indicator' (s : set α) (x : α) : ℕ := if x ∈ s then 1 else 0
 /-- The cardinal exponential. `mk α ^ mk β` is the cardinal of `β → α`. -/ 
 
 
--- @[simp] theorem power_def (α β) : mk α ^ mk β = mk (β → α) := rfl                               
+-- @[simp] theorem power_def (α β) : mk α ^ mk β = mk (β → α) := rfl                             
+
+-- from data/set/basic.lean
+variable {ι : Type*} 
+variable {α' : ι → Type*}
+variables {s s₁ : set ι}
+variables {t t₁ t₂ : Π i, set (α' i)}
+
+/-- The cartesian product `prod s t` is the set of
+ `(a, b)`
+  such that `a ∈ s` and `b ∈ t`. -/
+protected def prod' (s : set α) (t : set β) : 
+set (α × β) :=
+{p | p.1 ∈ s ∧ p.2 ∈ t}
+
+/-- Given an index set `ι` and a family of sets
+  `t : Π i, set (α i)`, `pi s t`
+  is the set of dependent functions
+   `f : Πa, π a` such that `f a` belongs to `t a`
+  whenever `a ∈ s`. -/
+def pi (s : set ι) (t : Π i, set (α' i)) :
+ set (Π i, α' i) := { f | ∀i ∈ s, f i ∈ t i }
+
+
+@[simp] lemma mem_pi {f : Π i, α' i} : 
+f ∈ s.pi t ↔ ∀ i ∈ s, f i ∈ t i :=         
+by refl   
