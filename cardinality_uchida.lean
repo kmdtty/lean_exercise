@@ -14,6 +14,7 @@ variables {α β : Type u}
 -- A, B are subsets of α
 -- A ⊂ α ↔ A ∈ 𝒫(A)
 variables {A B C: set α}
+variables {a b c : Type u}
 #check set α
 #check α
 #check set
@@ -119,3 +120,10 @@ def pi (s : set ι) (t : Π i, set (α' i)) :
 @[simp] lemma mem_pi {f : Π i, α' i} : 
 f ∈ s.pi t ↔ ∀ i ∈ s, f i ∈ t i :=         
 by refl   
+
+#check α'
+
+#check prod' A B 
+#check prod' {α} {β}
+#check (set α)
+
