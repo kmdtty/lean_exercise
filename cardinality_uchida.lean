@@ -144,6 +144,11 @@ def v2 : set nat := {2, 3}
 #reduce 2 ∈ v
 #check 2 ∈ v
 
+variable v3: set nat
+#reduce v3 = {2,3}
+#check v3
+
+
 
 
 
