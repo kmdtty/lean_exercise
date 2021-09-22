@@ -67,10 +67,11 @@ def powerset' (A : set α) : set (set α) := {B : set α | B ⊆ A}
 #check (1,2) ∈ powerset {A × B}
 #check powerset {v2 × v2} 
 #check (2,2) ∈ powerset {v2 × v2}
+#reduce (2,2) ∈ powerset {v2 × v2}
 #check set (powerset {v2 × v2})
 #check ℕ × ℕ 
---#check {f:ℕ × ℕ ∣ f ∈ powerset {v2 × v2}}
-
+-- #reduce {f:ℕ × ℕ ∣ f ∈ powerset {v2 × v2}}
+-- #check {n  ∣ n ∈ ℕ}
 --#reduce {f ∣ f ∈ powerset {v2 × v2}}
 -- v = {1,2}, v2 = {2,3}
 -- v × v2 = {(1,2),(1,3),(2,2),(2,3)}
