@@ -123,26 +123,7 @@ by refl
 
 #check α'
 
-#check prod' A B 
-#check prod' {α} {β}
-#reduce prod' A B
-#reduce prod' {α} {β}
-#check (set α)
 
-#eval 1 + 2
---#check set({a b})
-#reduce (a, b).1
-#reduce (a, b).2
-#check [1, 2] -- list ℕ 
-#check [a,b] -- List (Type u)
---instance i: (x: nat) (y: nat) := ⟨1, 2⟩
-def v : set nat := {1,2}
-#check v 
-
-def v2 : set nat := {2, 3}
-
-#reduce 2 ∈ v
-#check 2 ∈ v
 
 variable v3: set nat
 #reduce v3 = {2,3}
