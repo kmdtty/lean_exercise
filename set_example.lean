@@ -70,7 +70,26 @@ def powerset' (A : set α) : set (set α) := {B : set α | B ⊆ A}
 #reduce (2,2) ∈ powerset {v2 × v2}
 #check set (powerset {v2 × v2})
 #check ℕ × ℕ 
--- #reduce {f:ℕ × ℕ ∣ f ∈ powerset {v2 × v2}}
+#check set (ℕ × ℕ)
+-- are these same?
+def p : ℕ × ℤ := ⟨ 1, 2 ⟩ 
+def p2 : ℕ × ℤ := (1, 2)
+#check p
+#check p2
+
+#check Π x : α, β
+#check λ x: α, β
+
+-- these are same
+#check fun x: nat, x + 5
+#check λ x: nat, x+ 5
+
+#print ∣ 
+def evens : set ℕ := {n | even n}
+#check nat × nat
+#check evens
+--def test_pwset : set (ℕ × ℕ) := {f ∣ f ∈ powerset {v2 × v2}}
+--#reduce {f:nat × nat ∣ f ∈ powerset {v2 × v2}}
 -- #check {n  ∣ n ∈ ℕ}
 --#reduce {f ∣ f ∈ powerset {v2 × v2}}
 -- v = {1,2}, v2 = {2,3}
