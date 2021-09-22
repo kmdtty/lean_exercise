@@ -38,4 +38,9 @@ def v4: set(ℕ × ℕ) := {(1,2),(3,4)}
 -- #reduce (1,2) ∈ set(v × v2)
 #reduce 1 ∈ v2
 #reduce 2 ∈ v
-#eval 2 ∈ v
+#reduce 1 ∈ v
+#reduce A × B
+#reduce powerset A × B 
+#reduce powerset v2 × v2
+#check set (powerset v2 × v2)
+-- #reduce {f ∣ f ∈ powerset A × B}
