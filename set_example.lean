@@ -88,8 +88,54 @@ def p2 : ℕ × ℤ := (1, 2)
 def evens : set ℕ := {n | even n}
 #check nat × nat
 #check evens
---def test_pwset : set (ℕ × ℕ) := {f ∣ f ∈ powerset {v2 × v2}}
---#reduce {f:nat × nat ∣ f ∈ powerset {v2 × v2}}
+variable n':nat
+def n₂ : ℕ := 10
+#check even n₂ 
+#reduce even n₂ 
+
+--variable e:nat 
+variable s': set ℕ
+#check 1 ∈ s'
+-- caution!! `∣`(\mid) and `|` is different!! we can not use \mid in 
+-- set comprehension.
+def test_false : set ℕ := {e | even e }
+#check test_false
+variables {A' B': set ℕ}
+#check A' × B'
+#check powerset {A' × B'}
+#check {(a,b)} ∈ powerset {A × B}
+#print A 
+#print powerset
+-- This does not raises error but `set (set Type u)` does not seem what we want
+def test_function_from_set : set (set(Type u)) := {f | f ⊆ {A × B}}
+--def test_function_from_set : set (set(A × B)) := 
+-- {sf | sf ∈ powerset (A.prod B)}
+def test_function_from_set2 {X' X'': set ℕ}: set (set(ℕ × ℕ)) :=
+ {sf | sf ∈ powerset (X'.prod X'')}
+
+namespace test
+variables X Y: set ℕ 
+#check X × Y
+variables x: ℕ  × ℕ 
+#check x
+-- !caution! `prod X Y` and `set.prod X Y` are different!! 
+#check prod X Y -- ↥X × ↥Y : Type
+#check set.prod X Y -- set (ℕ × ℕ) : Type ;; is equivalent to `X.prod Y`
+#check set (prod X Y)
+#print set.prod -- {p : α × β | p.fst ∈ s ∧ p.snd ∈ t}
+#print prod
+#print × -- prod 
+
+def t {X Y: set ℕ}: set(ℕ × ℕ) := X.prod Y 
+def t' : set(ℕ × ℕ) := X.prod Y 
+
+#check t -- t : set (ℕ × ℕ)
+#check t' -- t' : set ℕ → set ℕ → set (ℕ × ℕ)
+#check t' 3 5 -- t' 3 5 : set (ℕ × ℕ)  ; t' requires two parameters!
+#check x ∈ t
+
+end test
+--#reduce {f:nat × nat ∣ f ∈ powerset {v2 × v2}}don't know how to synthesize placeholder
 -- #check {n  ∣ n ∈ ℕ}
 --#reduce {f ∣ f ∈ powerset {v2 × v2}}
 -- v = {1,2}, v2 = {2,3}
