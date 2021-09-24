@@ -11,8 +11,9 @@ open set
 universes u v
 variables {α β : Type u}
 variables {a b c: Type u}
-variables {A B C: set α}
- 
+variables {A C: set α}
+variable B: set β
+
 #check prod α β
 #reduce prod A B
 #check α
@@ -152,8 +153,11 @@ def test_function_from_set2 {X' X'': set ℕ}: set (set(ℕ × ℕ)) :=
 variables {D E: set (Type u)}
 #check {p | p ∈ 𝒫(D.prod E)}
 -- not yet defined
---def set_of_function {A B: set (Type u)} {f: A → B}: set (set (A × B)) :=
---{sf | sf ∈ powerset(A.prod B) ∧ function.graph(f) = sf}
+#check A.prod B
+-- not yet defined
+def set_of_function {f: A → B}: set (set (α × β)) :=
+{sf | sf ∈ 𝒫 (A.prod B) -- ∧ is_function(sf)
+}
 
 end test
 --#reduce {f:nat × nat ∣ f ∈ powerset {v2 × v2}}don't know how to synthesize placeholder
