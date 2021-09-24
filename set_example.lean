@@ -134,14 +134,35 @@ def t' : set(ℕ × ℕ) := X.prod Y
 #check t' 3 5 -- t' 3 5 : set (ℕ × ℕ)  ; t' requires two parameters!
 #check x ∈ t
 
+variable f₂: ℕ → ℕ  
+#check f₂
+
+variable f₃: α → β
+#check f₃
+#check ℕ 
+
+namespace function
+def graph {α β: Type u} (f: α → β) : set (α × β) := {p | p.2 = f p.1}
+end function
+#check function.graph(f₃)
+
+def test_function_from_set2 {X' X'': set ℕ}: set (set(ℕ × ℕ)) :=
+ {sf | sf ∈ powerset (X'.prod X'')}
+
+variables {D E: set (Type u)}
+#check {p | p ∈ 𝒫(D.prod E)}
+-- not yet defined
+--def set_of_function {A B: set (Type u)} {f: A → B}: set (set (A × B)) :=
+--{sf | sf ∈ powerset(A.prod B) ∧ function.graph(f) = sf}
+
 end test
 --#reduce {f:nat × nat ∣ f ∈ powerset {v2 × v2}}don't know how to synthesize placeholder
--- #check {n  ∣ n ∈ ℕ}
+-- #check {n sf ∣ n ∈ ℕ}
 --#reduce {f ∣ f ∈ powerset {v2 × v2}}
 -- v = {1,2}, v2 = {2,3}
 -- v × v2 = {(1,2),(1,3),(2,2),(2,3)}
 -- powerset v × v2 = {∅,
---                    {(1,2)}, {(1,2),(1,3)},{(1,2),(2,2)},{(1,2),(2,3)},
+--                    {(1,2)}, {(1,2),(1,3)},{(1,2),(2,2)},{(1,2),(2,3)},{}
 --                    {(1,3),(2,2)}, {(1,3),(2,3)},
 --                    {(2,2),(2,3)},
 --                    {(1,2),(1,3),(2,2)},{(1,2),(2,2),(2,3)},
