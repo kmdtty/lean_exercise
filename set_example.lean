@@ -153,12 +153,22 @@ def test_function_from_set2 {X' X'': set ℕ}: set (set(ℕ × ℕ)) :=
 variables {D E: set (Type u)}
 #check {p | p ∈ 𝒫(D.prod E)}
 -- not yet defined
-#check A.prod B
+#check A
+#check A.prod B -- set (α × β)
 -- not yet defined
 def set_of_function {f: A → B}: set (set (α × β)) :=
 {sf | sf ∈ 𝒫 (A.prod B) -- ∧ is_function(sf)
 }
 
+-- Why we do not need the type info of `A`? Since it is defined by `variable`?
+def setA : set α:= {a | a ∈ A} 
+#check setA
+#check {l | l ∈ setA}
+-- We can not remove the hint `{setA: set α}` from `setA_from_setA` definition.
+-- Is this because `def` has its own scope that `setA` is missing the type info?
+def setA_from_setA {setA: set α}: set α := {x | x ∈ setA}
+-- Why OK? because the scope inside the {} is global?
+#check {l: α | l ∈ setA}
 end test
 --#reduce {f:nat × nat ∣ f ∈ powerset {v2 × v2}}don't know how to synthesize placeholder
 -- #check {n sf ∣ n ∈ ℕ}
