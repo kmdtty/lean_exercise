@@ -218,14 +218,21 @@ def nset₂ : set ℕ := {1,2}
 
 -- we can not call this. why?
 --#check nset₁.prod nset₂
-#check nset₁ 
+#check nset₁ -- set: ℕ 
 -- we can not infer the type of {1,2}
 --def setnpair : set (ℕ × ℕ) := {1,2}.prod {2,3}
 -- the type is `set (ℕ × ℕ)` (not `(set ℕ) × (set ℕ)`) 
-def setnpair : set (ℕ × ℕ) := ({1,2}:set ℕ).prod ({2,3}:set ℕ)  
+def npairset : set (ℕ × ℕ) := ({1,2}:set ℕ).prod ({2,3}:set ℕ)  
+#check npairset -- set (ℕ × ℕ)
+#reduce npairset
 
-#check setnpair -- set (ℕ × ℕ)
-#reduce setnpair
+def npairset₂ : set (ℕ × ℕ) := {(1,2),(3,4),(5,6)}
+
+#check npairset₂ -- npaierset₂ : set (ℕ × ℕ )
+#reduce npairset₂ -- λ (b : ℕ × ℕ), b = (1, 2) ∨ b = (3, 4) ∨ b = (5, 6)
+
+def setnpair : set ℕ × set ℕ := ⟨ {1,2,3} , {2,3,4,5} ⟩ 
+#check setnpair -- set ℕ × set ℕ 
 #check A
 #check A.prod B -- set (α × β)
 -- not yet defined
