@@ -160,10 +160,20 @@ def set_of_function {f: A → B}: set (set (α × β)) :=
 {sf | sf ∈ 𝒫 (A.prod B) -- ∧ is_function(sf)
 }
 
--- Why we do not need the type info of `A`? Since it is defined by `variable`?
-def setA : set α:= {a | a ∈ A} 
-#check setA
-#check {l | l ∈ setA}
+def setA {a: α} : set α:= {a | a ∈ A} 
+def setA2 {A2: set α}: set α := {a | a ∈ A2}
+def setN {N: set ℕ}: set ℕ := {n | n ∈ N}
+variable θ: Type
+def setC {C2: set θ} :set θ := {c | c ∈ C2}
+#check setN -- set ℕ 
+#check setA -- set ?M_1 (this can not have set `α` because `α` is `Type u`)
+#check setA2 -- set ?M_1
+#check setC -- set θ (this have type `set θ` is because `θ` is `Type`)
+#check ℕ -- Type
+#print ℕ -- `ℕ`:1024 := nat
+#check A -- set α
+#check {l | l ∈ setA} -- set ?M_1
+#check {l2 | l2 ∈ A} -- set α
 -- We can not remove the hint `{setA: set α}` from `setA_from_setA` definition.
 -- Is this because `def` has its own scope that `setA` is missing the type info?
 def setA_from_setA {setA: set α}: set α := {x | x ∈ setA}
