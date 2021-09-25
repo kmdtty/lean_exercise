@@ -153,18 +153,17 @@ def test_function_from_set2 {X' X'': set ℕ}: set (set(ℕ × ℕ)) :=
 variables {D E: set (Type u)}
 #check {p | p ∈ 𝒫(D.prod E)}
 -- not yet defined
-#check A
-#check A.prod B -- set (α × β)
--- not yet defined
-def set_of_function {f: A → B}: set (set (α × β)) :=
-{sf | sf ∈ 𝒫 (A.prod B) -- ∧ is_function(sf)
-}
 
 def setA {a: α} : set α:= {a | a ∈ A} 
 def setA2 {A2: set α}: set α := {a | a ∈ A2}
 def setN {N: set ℕ}: set ℕ := {n | n ∈ N}
 variable θ: Type
 def setC {C2: set θ} :set θ := {c | c ∈ C2}
+
+-- Type*, Type u, Type _ is used for dependant type
+variable γ : Type* -- to avoid arbitaly universe name we can use `Type*`
+#check α -- Type u
+#check γ -- Type u_1
 #check setN -- set ℕ 
 #check setA -- set ?M_1 (this can not have set `α` because `α` is `Type u`)
 #check setA2 -- set ?M_1
@@ -192,3 +191,45 @@ end test
 --                    {(1,2),(1,3),(2,2)},{(1,2),(2,2),(2,3)},
 --                    {(1,3),(2,2),(2,3)},
 --                    {(1,2),(1,3),(2,2),(2,3)}}
+
+namespace test2
+#check a
+#check α
+#check 'a'
+-- We can not define the following
+-- def onetwo : α×β := ⟨α, β⟩   
+def ab : char × char := ⟨ 'a', 'b'⟩ 
+#print char
+#print nat 
+#print α 
+#check ⟨1,2⟩ 
+def sf₁ : set (set (ℕ × ℕ)) := {{(1,2)},{(1,2),(1,3)}}
+-- def sf₂ : set (set (α × β)) := {{⟨a,b⟩ },{(a,b)}}
+#check sf₁
+
+def npair : ℕ × ℕ := (1,2)
+#check npair -- npair : ℕ × ℕ
+
+def npair₂ : ℕ × ℕ := ⟨1,2⟩  -- whats the difference on `()` and `⟨ ⟩`?
+#check npair₂ -- npair₂ : ℕ × ℕ 
+
+def nset₁ : set ℕ := {1,2}
+def nset₂ : set ℕ := {1,2}
+
+-- we can not call this. why?
+--#check nset₁.prod nset₂
+#check nset₁ 
+-- we can not infer the type of {1,2}
+--def setnpair : set (ℕ × ℕ) := {1,2}.prod {2,3}
+-- the type is `set (ℕ × ℕ)` (not `(set ℕ) × (set ℕ)`) 
+def setnpair : set (ℕ × ℕ) := ({1,2}:set ℕ).prod ({2,3}:set ℕ)  
+
+#check setnpair -- set (ℕ × ℕ)
+#reduce setnpair
+#check A
+#check A.prod B -- set (α × β)
+-- not yet defined
+def set_of_function {f: A → B}: set (set (α × β)) :=
+{sf | sf ∈ 𝒫 (A.prod B) -- ∧ is_function(sf)
+}
+end test2
