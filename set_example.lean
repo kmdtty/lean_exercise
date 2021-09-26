@@ -1,5 +1,6 @@
 import data.set 
--- import set_theory.zfc 
+import data.set.basic
+import set_theory.zfc 
 -- import data.nat.basic
 -- import set_theory.cardinal
 
@@ -252,3 +253,50 @@ def set₁ (α : Type u) := α → Prop
 
 
 end test2
+
+namespace ZFCSet
+
+-- These definitions are copied from set_theorey/zfc.lean
+
+/-- The type of pre-sets in universe `u`. A pre-set
+  is a family of pre-sets indexed by a type in `Type u`.
+  The ZFC universe is defined as a quotient of this
+  to ensure extensionality. -/
+inductive pSet : Type (u+1)
+| mk (α : Type u) (A : α → pSet) : pSet
+
+#check pSet
+
+/-- The ZFC universe of sets consists of the type of pre-sets,
+  quotiented by extensional equivalence. -/
+def Set : Type (u+1) := quotient pSet.setoid.{u}
+
+#check Set
+#reduce Set.{u}
+#check Set.{v}
+#print pSet.setoid
+
+--variable (x : Set.{u})
+
+notation `⋃` := Set.Union
+
+/-- Kuratowski ordered pair -/
+def pair (x y : Set.{u}) : Set.{u} := {{x}, {x, y}}
+
+/-- A subset of pairs `{(a, b) ∈ x × y | p a b}` -/
+def pair_sep (p : Set.{u} → Set.{u} → Prop) (x y : Set.{u}) : Set.{u} :=
+{z ∈ powerset (powerset (x ∪ y)) | ∃a ∈ x, ∃b ∈ y, z = pair a b ∧ p a b}
+
+/-- The cartesian product, `{(a, b) | a ∈ x, b ∈ y}` -/
+def prod : Set.{u} → Set.{u} → Set.{u} := pair_sep (λa b, true)
+
+/-- `is_func x y f` is the assertion `f : x → y` where `f` is a ZFC function
+  (a set of ordered pairs) -/
+def is_func (x y f : Set.{u}) : Prop :=
+f ⊆ prod x y ∧ ∀z:Set.{u}, z ∈ x → ∃! w, pair z w ∈ f
+
+/-- `funs x y` is `y ^ x`, the set of all set functions `x → y` -/
+def funs (x y : Set.{u}) : Set.{u} :=
+{f ∈ powerset (prod x y) | is_func x y f}
+
+end ZFCSet
