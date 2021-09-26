@@ -202,7 +202,7 @@ def ab : char × char := ⟨ 'a', 'b'⟩
 #print char
 #print nat 
 #print α 
-#check ⟨1,2⟩ 
+#check (1,2) 
 def sf₁ : set (set (ℕ × ℕ)) := {{(1,2)},{(1,2),(1,3)}}
 -- def sf₂ : set (set (α × β)) := {{⟨a,b⟩ },{(a,b)}}
 #check sf₁
@@ -239,4 +239,16 @@ def setnpair : set ℕ × set ℕ := ⟨ {1,2,3} , {2,3,4,5} ⟩
 def set_of_function {f: A → B}: set (set (α × β)) :=
 {sf | sf ∈ 𝒫 (A.prod B) -- ∧ is_function(sf)
 }
+
+--variable a_number₂ : 
+--def setN: set ℕ := {n | n: ℕ}
+def example2 {n: ℕ} : Prop := n = 1
+--lemma example3: ∀n:ℕ, n = 1 := sorry
+#print set
+
+-- universes u v
+-- this definition is from library/init/data/set.lean
+def set₁ (α : Type u) := α → Prop
+
+
 end test2
