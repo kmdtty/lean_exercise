@@ -234,12 +234,41 @@ def npairset₂ : set (ℕ × ℕ) := {(1,2),(3,4),(5,6)}
 
 def setnpair : set ℕ × set ℕ := ⟨ {1,2,3} , {2,3,4,5} ⟩ 
 #check setnpair -- set ℕ × set ℕ 
-#check A
+#check A -- set α
 #check A.prod B -- set (α × β)
+
+-- When the type is ℕ
+variables {n₁ n₂ : ℕ}
+variable {N₁: set ℕ}
+variable {N₂: set ℕ}
+#check N₁.prod N₂ -- set (ℕ × ℕ) 
+#check (1,2) ∈ N₁.prod N₂ --(X.prod Y)
+#check (n₁,n₂) ∈ N₁.prod N₂
+
+#print ℕ
+#print nat
+
+-- When it is generic Type
+variables {x₁ y₁: Type}
+variables {X₁: set Type}
+variables {Y₁: set Type}
+#check X₁.prod Y₁
+#check (x₁,y₁) ∈ X₁.prod Y₁
+
+variable f₁ : set (Type × Type)
+#check (x₁,y₁) -- (x₁, y₁) : Type × Type
+#check (x₁,y₁) ∈ f₁ -- (x₁, y₁) ∈ f₁ : Prop
+
+/--
+This function x is ((ℕ × ℕ), ℕ, ℕ) (ℕ can be any type)   
+-/
+def is_function (X Y: set Type*) (f: set (X × Y)): Prop := 
+ ∀x:X,∃!y:Y, (x,y) ∈ f
+
 -- not yet defined
-def set_of_function {f: A → B}: set (set (α × β)) :=
-{sf | sf ∈ 𝒫 (A.prod B) -- ∧ is_function(sf)
-}
+-- `funs X Y` is `Y ^ X`
+def funs {X Y: set Type*} : set (set (X × Y)) :=
+{f | f ∈ 𝒫 (X.prod Y) ∧ (is_function X Y f)}
 
 --variable a_number₂ : 
 --def setN: set ℕ := {n | n: ℕ}
