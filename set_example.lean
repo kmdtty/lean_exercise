@@ -252,22 +252,37 @@ variable {N₂: set ℕ}
 variables {x₁ y₁: Type}
 variables {X₁: set Type}
 variables {Y₁: set Type}
-#check X₁.prod Y₁
+#check X₁.prod Y₁ -- X₁.prod Y₁ : set (Type × Type)
 #check (x₁,y₁) ∈ X₁.prod Y₁
 
 variable f₁ : set (Type × Type)
+#check f₁ -- f₁ : set (Type × Type)
+#check set(X₁ × Y₁)  -- set (↥X₁ × ↥Y₁) : Type 1
+#check ↥X₁
+#reduce ↥X₁ -- {x // X₁ x}
+#check ↥X₁ × ↥Y₁ -- ↥X₁ × ↥Y₁ : Type 1
+#reduce coe_sort X₁
+#check X₁.prod Y₁ -- X₁.prod Y₁ : set (Type × Type)
 #check (x₁,y₁) -- (x₁, y₁) : Type × Type
 #check (x₁,y₁) ∈ f₁ -- (x₁, y₁) ∈ f₁ : Prop
+#check coe_sort X₁ × coe_sort Y₁ -- ↥X₁ × ↥Y₁ : Type 1
+#check coe_sort X₁
+--#check (x₁, y₁) ∈ (X₁ × Y₁)
+#check ↑X₁ --↑X₁ : ?M_1
+#check subtype X₁ -- subtype X₁ : Type 1
+
+variable s : set α
+#check subtype s 
 
 /--
 This function x is ((ℕ × ℕ), ℕ, ℕ) (ℕ can be any type)   
 -/
-def is_function (X Y: set Type*) (f: set (X × Y)): Prop := 
- ∀x:X,∃!y:Y, (x,y) ∈ f
+def is_function (X:set α) (Y: set β) (f: set (α × β)): Prop := 
+ ∀x:α,∃!y:β, (x,y) ∈ f
 
 -- not yet defined
 -- `funs X Y` is `Y ^ X`
-def funs {X Y: set Type*} : set (set (X × Y)) :=
+def funs {X : set α} {Y: set β}: set (set (α × β)) :=
 {f | f ∈ 𝒫 (X.prod Y) ∧ (is_function X Y f)}
 
 --variable a_number₂ : 
