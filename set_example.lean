@@ -277,13 +277,15 @@ variable s : set α
 /-- invalid definition -/
 -- Pitfalls
 -- ========
--- 1. f is not `set (X × Y)` because `X` is `set Type*`, it means it is a term
----   not a type, so `X × Y` does not work as expected.
+-- 1. The type of f is not `set (X × Y)` because the type of `X` is `set Type*`,
+--    This it means it is a term not a type, so `X × Y` does not work as
+--    expected.
 -- 2. `x:X` is expected to express `x ∈ X`, but again
---    `X` is not an expected type. (it is coerced type ↥X in reality)  
---    Thus `x:X` does not mean `x` is a member of the set `X`.
---    It does not mean `x` is a type of `Type*`. Instead,
---    it means `x` has a type of `↥X`, then `(x, y)` has a type `(↥X, ↥Y)`.
+--    `X` does not express the expected type. (it is coerced type ↥X in reality)  
+--    Thus `x:X` does not mean that `x` is a member of the set `X`.
+--    It also does not mean `x` is a type of `Type*`. 
+--    Instead, it means `x` is a type of `↥X`, therefore `(x, y)` has
+--    the type `(↥X, ↥Y)`.
 def is_function_invalid (X Y: set Type*) (f: set (X × Y)): Prop := 
  ∀x:X,∃!y:Y, (x,y) ∈ f
 
@@ -294,15 +296,18 @@ def funs_invalid {X Y: set Type*} : set (set (X × Y)) :=
 /--
 The function x is a triple: (T, T, (T, T)) (T can be any type)   
 -/
+-- Note that:
+-- `∀x ∈ X` means `∀x: α, x ∈ X → ...`  
+-- `∃y ∈ Y` means `∃y: β, y ∈ Y ∧ ... `
 def is_function (X:set α) (Y: set β) (f: set (α × β)): Prop := 
- ∀x ∈ X,∃!y ∈ Y, (x,y) ∈ f
+f ⊆ X.prod Y ∧ ∀x ∈ X,∃!y ∈ Y, (x,y) ∈ f
 
 -- not yet defined
 -- `funs X Y` is `Y ^ X`
 def funs (X : set α) (Y: set β): set (set (α × β)) :=
 {f | f ∈ 𝒫 (X.prod Y) ∧ (is_function X Y f)}
 
-theorem mem_funs_eq_isfunction {X: set α} {Y: set β } {f: set (α × β)}: 
+theorem mem_funs_equiv_isfunction {X: set α} {Y: set β } {f: set (α × β)}: 
 f ∈ funs X Y ↔ is_function X Y f :=
 by simp [funs, is_function]
 
