@@ -5,7 +5,7 @@ import data.rel
 open set 
 
 universe u
-variables {α β : Type u}
+variables {α β : Type*}
 variables {A B C: set α}
 variable D : set β
 variables {a b c : Type u}
@@ -82,17 +82,22 @@ theorem iso_transivity : A ∼ B ∧ B ∼ C → A ∼ C :=
 --def 𝔹 : set ℕ := {0,1}
 
 
-inductive 𝔹 : Type u
+inductive 𝔹 : Type
 | zero : 𝔹
 | one : 𝔹
 
-variable B2: set 𝔹
+def 𝔹₂: set 𝔹 := {𝔹.zero, 𝔹.one}
 
 #check A -- A : set α
 #check funs A B 
-#check D ^ A -- D ^ A : set (set (α × β))
-#check B2
-
-#check B2 ^ A
-theorem powerset_equinumerous_set_of_function
- {f: A → zero_one} : powerset(A) ∼ funs A zero_one :B2
+#check 𝔹₂ -- 𝔹₂ : set 𝔹
+ 
+#check funs A 𝔹₂
+#check 𝔹₂ ^ A -- 𝔹₂ ^ A : set (set (α × 𝔹))
+#check powerset A -- 𝒫 A : set (set α)
+#check α × 𝔹 -- α × 𝔹 : Type u_1
+#reduce α × 𝔹 
+#check α -- α : Type u_1
+def B₂A: set (set (α × 𝔹)) := 𝔹₂ ^ A
+#check are_iso 𝒫(A)  B₂A
+theorem powerset_equinumerous_set_of_function: powerset(A) ∼ B₂A
