@@ -129,8 +129,28 @@ variable v3: set nat
 #reduce v3 = {2,3}
 #check v3
 
+/--
+Let X Y be a set,
+f be a pairs of X × Y.
+The function x is a triple: x := (f, X, Y)    
+-/
+-- Note that:
+-- `∀x ∈ X` means `∀x: α, x ∈ X → ...`  
+-- `∃y ∈ Y` means `∃y: β, y ∈ Y ∧ ... `
+def is_function  (f: set (α × β)) (X:set α) (Y: set β): Prop := 
+f ⊆ X.prod Y ∧ ∀x ∈ X,∃!y ∈ Y, (x,y) ∈ f
 
+-- not yet defined
+-- `funs X Y` is `Y ^ X`
+def funs (X : set α) (Y: set β): set (set (α × β)) :=
+{f | f ∈ 𝒫 (X.prod Y) ∧ (is_function f X Y)}
 
+theorem mem_funs_equiv_isfunction {X: set α} {Y: set β } {f: set (α × β)}: 
+f ∈ funs X Y ↔ is_function f X Y :=
+by simp [funs, is_function]
+
+variable X : set α
+variable Y: set β
 
 
 
