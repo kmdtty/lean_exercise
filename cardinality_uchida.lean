@@ -7,6 +7,7 @@ open set
 universe u
 variables {α β : Type u}
 variables {A B C: set α}
+variable D : set β
 variables {a b c : Type u}
 
 
@@ -32,6 +33,8 @@ f ⊆ X.prod Y ∧ ∀x ∈ X,∃!y ∈ Y, (x,y) ∈ f
 -/
 def funs (X : set α) (Y: set β): set (set (α × β)) :=
 {f | f ∈ 𝒫 (X.prod Y) ∧ (is_function f X Y)}
+
+local notation b `^` a := funs a b
 
 #print 𝒫 -- `𝒫`:100 _:100 := set.powerset #0
 #print set.powerset 
@@ -76,6 +79,20 @@ theorem iso_symmetry : A ∼ B → B ∼ A :=
 theorem iso_transivity : A ∼ B ∧ B ∼ C → A ∼ C :=
   sorry
 
+--def 𝔹 : set ℕ := {0,1}
+
+
+inductive 𝔹 : Type u
+| zero : 𝔹
+| one : 𝔹
+
+variable B2: set 𝔹
+
+#check A -- A : set α
+#check funs A B 
+#check D ^ A -- D ^ A : set (set (α × β))
+#check B2
+
+#check B2 ^ A
 theorem powerset_equinumerous_set_of_function
- {f: A → bool} : powerset(A) ∼ set f :=
-  sorry
+ {f: A → zero_one} : powerset(A) ∼ funs A zero_one :B2
