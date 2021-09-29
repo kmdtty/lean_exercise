@@ -1,8 +1,10 @@
 import data.set 
 import data.nat.basic
+import data.set.function
 import data.rel 
 
 open set 
+open function
 
 universe u
 variables {α β : Type*}
@@ -27,14 +29,15 @@ def is_function  (f: set (α × β)) (X:set α) (Y: set β): Prop :=
 f ⊆ X.prod Y ∧ ∀x ∈ X,∃!y ∈ Y, (x,y) ∈ f
 
 /--
-`funs X Y` is the set of all functions `f: X → B`
+`Functions X Y` is the set of all functions `f: X → B`
 
-`funs X Y` is denoted `Y ^ X`.
+`Functions X Y` is denoted `Y ^ X`.
 -/
-def funs (X : set α) (Y: set β): set (set (α × β)) :=
+def Functions (X : set α) (Y: set β): set (set (α × β)) :=
 {f | f ∈ 𝒫 (X.prod Y) ∧ (is_function f X Y)}
 
-local notation b `^` a := funs a b
+--
+local notation b `^`:100 a := Functions a b
 
 #print 𝒫 -- `𝒫`:100 _:100 := set.powerset #0
 #print set.powerset 
@@ -44,8 +47,8 @@ local notation b `^` a := funs a b
 -- This prove `by simp [funs, is_function]` is copied from set_theory/zfc.lean 
 -- I have not yet understood this proof.
 theorem mem_funs_equiv_isfunction {X: set α} {Y: set β } {f: set (α × β)}: 
-f ∈ funs X Y ↔ is_function f X Y :=
-by simp [funs, is_function]
+f ∈ Functions X Y ↔ is_function f X Y :=
+by simp [Functions, is_function]
 
 variable X : set α
 variable Y: set β
@@ -59,13 +62,23 @@ variable Y: set β
 
 -- Exercise 7.1 
 
--- are_equinumeros?
-def are_iso (X Y: set α) : Prop :=
+def are_iso (X:set α) (Y: set β) : Prop :=
   ∃ f : X → Y, ∃ g : Y → X, f ∘ g = @id Y ∧ g ∘ f = @id X
+
+def are_equinumero (X:set α) (Y: set β) : Prop :=
+  ∃ f : X → Y, bijective f
+
+-- not yet proved 
+theorem are_iso_eq_are_equinumero {X: set α} {Y: set β}:
+(are_iso X Y) ↔ (are_equinumero X Y) :=
+by simp [are_iso, are_equinumero]
+
+#check X → Y -- ↥X → ↥Y : Type (max u_1 u_2)
 
 #check are_iso A B
 
-local infixr ` ∼ `:max := are_iso 
+local infix ` ∼ `:max := are_iso 
+local notation a `~` b := are_iso a b
 
 -- ex 7.1 (1)
 theorem iso_reflexivity :  A ∼ A :=
@@ -81,7 +94,6 @@ theorem iso_transivity : A ∼ B ∧ B ∼ C → A ∼ C :=
 
 --def 𝔹 : set ℕ := {0,1}
 
-
 inductive 𝔹 : Type
 | zero : 𝔹
 | one : 𝔹
@@ -89,15 +101,27 @@ inductive 𝔹 : Type
 def 𝔹₂: set 𝔹 := {𝔹.zero, 𝔹.one}
 
 #check A -- A : set α
-#check funs A B 
+#check Functions A B 
 #check 𝔹₂ -- 𝔹₂ : set 𝔹
  
-#check funs A 𝔹₂
+#check Functions A 𝔹₂
 #check 𝔹₂ ^ A -- 𝔹₂ ^ A : set (set (α × 𝔹))
-#check powerset A -- 𝒫 A : set (set α)
+#check 𝒫(A) -- 𝒫 A : set (set α)
 #check α × 𝔹 -- α × 𝔹 : Type u_1
 #reduce α × 𝔹 
 #check α -- α : Type u_1
 def B₂A: set (set (α × 𝔹)) := 𝔹₂ ^ A
-#check are_iso 𝒫(A)  B₂A
-theorem powerset_equinumerous_set_of_function: powerset(A) ∼ B₂A
+
+#check are_iso 𝒫(A) 𝒫(B) -- (𝒫 A) ∼ 𝒫 B : Prop
+#check (𝒫 A) ∼ (𝒫 B) 
+#check are_iso (𝒫 A) B₂A
+#check are_iso (𝒫 A) (𝔹₂ ^ A)
+
+#print list.perm
+#check 𝒫 A ~ B₂A
+#reduce are_iso (𝒫 A) B₂A
+#reduce 𝒫 A ~ B₂A
+#check 𝒫 A ~ (𝔹₂ ^ A) -- 𝒫 A ~ 𝔹₂ ^ A : Prop
+#reduce 𝒫 A ~ (𝔹₂ ^ A)
+theorem powerset_equinumerous_set_of_function : 
+𝒫 A ~ (𝔹₂ ^ A) := sorry
