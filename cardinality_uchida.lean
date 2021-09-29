@@ -78,7 +78,7 @@ by simp [are_iso, are_equinumero]
 #check are_iso A B
 
 local infix ` ∼ `:max := are_iso 
-local notation a `~` b := are_iso a b
+-- local notation a `∼` b := are_iso a b
 
 -- ex 7.1 (1)
 theorem iso_reflexivity :  A ∼ A :=
@@ -114,14 +114,15 @@ def B₂A: set (set (α × 𝔹)) := 𝔹₂ ^ A
 
 #check are_iso 𝒫(A) 𝒫(B) -- (𝒫 A) ∼ 𝒫 B : Prop
 #check (𝒫 A) ∼ (𝒫 B) 
-#check are_iso (𝒫 A) B₂A
 #check are_iso (𝒫 A) (𝔹₂ ^ A)
 
-#print list.perm
-#check 𝒫 A ~ B₂A
-#reduce are_iso (𝒫 A) B₂A
-#reduce 𝒫 A ~ B₂A
-#check 𝒫 A ~ (𝔹₂ ^ A) -- 𝒫 A ~ 𝔹₂ ^ A : Prop
-#reduce 𝒫 A ~ (𝔹₂ ^ A)
-theorem powerset_equinumerous_set_of_function : 
-𝒫 A ~ (𝔹₂ ^ A) := sorry
+#check (𝒫 A) ∼ (𝔹₂ ^ A) -- 𝒫 A ~ 𝔹₂ ^ A : Prop
+#reduce (𝒫 A) ∼ (𝔹₂ ^ A)
+#reduce are_iso (𝒫 A) (𝔹₂ ^ A)
+
+theorem powerset_A_equiv_powerset_A:
+(𝒫 A) = (𝒫 A) :=
+by refl 
+
+theorem powerset_A_equinumerous_set_of_function_from_A_to_bool : 
+(𝒫 A) ∼ (𝔹₂ ^ A) := sorry
