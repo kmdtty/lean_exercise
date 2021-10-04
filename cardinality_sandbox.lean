@@ -75,3 +75,22 @@ variable {U : Type}
 
 example (A B : set U) (h : B ∈ powerset2 A) : B ⊆ A :=
 h
+def y2 : set ℕ := {1,2}
+variable {y : set ℕ}
+#check set ℕ
+#reduce (set ℕ) 
+#print y
+#print set
+#reduce 2 ∈ y
+#reduce 2 ∈ y2
+#reduce y2 19
+#print y2
+#check y2
+#print ∈
+#print has_mem
+#check Prop
+#reduce Prop
+#print Prop
+#check y → Prop
+#reduce y → Prop
+#reduce y2 → Prop
