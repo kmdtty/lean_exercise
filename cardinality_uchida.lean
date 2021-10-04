@@ -29,12 +29,23 @@ def is_function  (f: set (α × β)) (X:set α) (Y: set β): Prop :=
 f ⊆ X.prod Y ∧ ∀x ∈ X,∃!y ∈ Y, (x,y) ∈ f
 
 /--
-`Functions X Y` is the set of all functions `f: X → B`
+`Functions X Y` is the set of all functions `f: X → Y`
 
 `Functions X Y` is denoted `Y ^ X`.
 -/
 def Functions (X : set α) (Y: set β): set (set (α × β)) :=
 {f | f ∈ 𝒫 (X.prod Y) ∧ (is_function f X Y)}
+
+
+#check ℕ
+#print ℕ  
+def setN: set ℕ := {x:ℕ ∣ x \
+#check 1  ∈ setN
+--#check 1 ∈ (set ℕ)
+#check set α
+#print set 
+#check ↥(set α)
+#print set
 
 --
 local notation b `^`:100 a := Functions a b
@@ -46,7 +57,8 @@ local notation b `^`:100 a := Functions a b
 
 -- This prove `by simp [funs, is_function]` is copied from set_theory/zfc.lean 
 -- I have not yet understood this proof.
-theorem mem_funs_equiv_isfunction {X: set α} {Y: set β } {f: set (α × β)}: 
+theorem mem_funs_equiv_isfunction
+ {X: set α} {Y: set β } {f: set (α × β)}: 
 f ∈ Functions X Y ↔ is_function f X Y :=
 by simp [Functions, is_function]
 
