@@ -94,3 +94,43 @@ variable {y : set ℕ}
 #check y → Prop
 #reduce y → Prop
 #reduce y2 → Prop
+
+#check list -- list: Type u_3 → Type u_3
+#check vector -- vector: Type u_3 → ℕ → Type_u_3
+#print vector 
+-- @[_ext_core id.{1} name vector.ext] 
+--def vector : Type u → ℕ → Type u :=
+--λ (α : Type u) (n : ℕ), {l // l.length = n}
+
+#print list 
+--
+--@[_ext_core id.{1} name list.ext]
+--inductive list : Type u → Type u
+--constructors:
+--list.nil : Π {T : Type u}, list T
+--list.cons : Π {T : Type u}, T → list T → list T
+
+#print set 
+--@[_ext_core id.{1} name set.ext]
+--def set : Type u → Type u :=
+--λ (α : Type u), α → Prop
+
+universe u 
+#check Type u -- Type (u+1) -- !! not Type u
+#check Type -- Type 1
+#check Prop -- Type 
+
+def v' := λ f: ℕ → ℕ, f 1
+
+#check v'  -- v' : (ℕ → ℕ) → ℕ
+#print v' -- def v' : (ℕ → ℕ) → ℕ := λ (f : ℕ → ℕ), f 1
+
+def double' : ℕ → ℕ := λ x: ℕ , x+ x
+def double'' (x: ℕ) : ℕ := x + x
+
+-- double' and double'' are equivalent
+#check double' -- double' : ℕ → ℕ
+#check double'' -- double'' : ℕ → ℕ
+#print double'  -- def double' : ℕ → ℕ := λ (x : ℕ), x + x
+#print double'' --  def double'' : ℕ → ℕ := λ (x : ℕ), x + x
+
