@@ -87,62 +87,7 @@ variable {y : set ℕ}
 #print y2
 #check y2
 
--- What is `set`?  `set α`?
 
-#print set
---@[_ext_core id.{1} name set.ext]
---def set : Type u → Type u :=
---  λ (α : Type u), α → Prop
-
-#print set.mem
--- protected def set.mem :
--- Π {α : Type u}, α → set α → Prop :=
--- λ {α : Type u} (a : α) (s : set α), s a
-
-#print set.univ 
--- def set.univ : Π {α : Type u}, set α :=
--- λ {α : Type u} (a : α), true
-
-#print ∈
--- _ `∈`:50 _:50 := has_mem.mem #1 #0
-
-#print set.has_mem
--- @[instance]
--- protected def set.has_mem : Π {α : Type u}, has_mem α (set α) :=
--- λ {α : Type u}, {mem := set.mem α}
-
-#print has_mem.mem
---@[reducible]
---def has_mem.mem : 
---  Π {α : Type u} {γ : Type v} [self : has_mem α γ], α → γ → Prop :=
---  λ {α : Type u} (γ : Type v) [self : has_mem α γ], [has_mem.mem self]
-
-#check Prop -- Prop: Type
-#reduce Prop
-#print Prop
-#check y → Prop
-#reduce y → Prop
-#reduce y2 → Prop
-
-#check list -- list: Type u_3 → Type u_3
-#check vector -- vector: Type u_3 → ℕ → Type_u_3
-#print vector 
--- @[_ext_core id.{1} name vector.ext] 
---def vector : Type u → ℕ → Type u :=
---λ (α : Type u) (n : ℕ), {l // l.length = n}
-
-#print list 
---
---@[_ext_core id.{1} name list.ext]
---inductive list : Type u → Type u
---constructors:
---list.nil : Π {T : Type u}, list T
---list.cons : Π {T : Type u}, T → list T → list T
-
-#print set 
---@[_ext_core id.{1} name set.ext]
---def set : Type u → Type u :=
---λ (α : Type u), α → Prop
 
 universe u 
 #check Type u -- Type (u+1) -- !! not Type u
@@ -163,3 +108,82 @@ def double'' (x: ℕ) : ℕ := x + x
 #print double'  -- def double' : ℕ → ℕ := λ (x : ℕ), x + x
 #print double'' --  def double'' : ℕ → ℕ := λ (x : ℕ), x + x
 
+-- What is `set`?  `set α`?
+
+#print set
+/-
+@[_ext_core id.{1} name set.ext]
+def set : Type u → Type u :=
+  λ (α : Type u), α → Prop
+-/
+
+#print set.mem
+/-
+protected def set.mem :
+Π {α : Type u}, α → set α → Prop :=
+λ {α : Type u} (a : α) (s : set α), s a
+-/
+
+#print set.univ 
+/-
+def set.univ : Π {α : Type u}, set α :=
+ λ {α : Type u} (a : α), true
+-/
+
+#print ∈
+-- _ `∈`:50 _:50 := has_mem.mem #1 #0
+
+#print set.has_mem
+/-
+ @[instance]
+ protected def set.has_mem : Π {α : Type u}, has_mem α (set α) :=
+ λ {α : Type u}, {mem := set.mem α}
+-/
+
+#print has_mem.mem
+/-
+@[reducible]
+def has_mem.mem : 
+  Π {α : Type u} {γ : Type v} [self : has_mem α γ], α → γ → Prop :=
+  λ {α : Type u} (γ : Type v) [self : has_mem α γ], [has_mem.mem self]
+-/
+
+#check Prop -- Prop: Type
+#reduce Prop
+#print Prop
+#check y → Prop
+#reduce y → Prop
+#reduce y2 → Prop
+
+#check list -- list: Type u_3 → Type u_3
+#check vector -- vector: Type u_3 → ℕ → Type_u_3
+#print vector 
+/-
+ @[_ext_core id.{1} name vector.ext] 
+def vector : Type u → ℕ → Type u :=
+λ (α : Type u) (n : ℕ), {l // l.length = n}
+-/
+
+#print list 
+/-
+@[_ext_core id.{1} name list.ext]
+inductive list : Type u → Type u
+constructors:
+list.nil : Π {T : Type u}, list T
+list.cons : Π {T : Type u}, T → list T → list T
+-/
+
+#print set 
+/-
+@[_ext_core id.{1} name set.ext]
+def set : Type u → Type u :=
+λ (α : Type u), α → Prop
+-/
+
+#print nat
+/-
+inductive nat : Type
+constructors:
+nat.zero : ℕ
+nat.succ : ℕ → ℕ
+-/
