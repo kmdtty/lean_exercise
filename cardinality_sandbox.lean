@@ -213,6 +213,7 @@ def setSetTc2 : set (set (ℕ × ℕ)) := {{(1,2),(2,3)},{(4,5)}}
 
 -- set T :=  {x ∈ Univ | x : T}
 
+
 -- set (ℕ × ℕ) := {x ∈ Univ | x : ℕ × ℕ} where ℕ is nat in Lean
 --                ⇔ {x ∈ Univ | x ∈ (N × N)} where N is natural number
 -- set (set ( ℕ × ℕ )) := {x ∈ Univ | x: set (ℕ × ℕ)}
@@ -220,6 +221,27 @@ def setSetTc2 : set (set (ℕ × ℕ)) := {{(1,2),(2,3)},{(4,5)}}
 
 -- set ℕ := {x ∈ Univ | x : ℕ }
 --        ⇔ {x ∈ Univ | x ∈ N}
+-- => This is not true `set ℕ` is not a  mathematical set
+/- 
+ set ℕ := λ x. 
+   | true if x : ℕ 
+   | false otherwise 
+  X := {x ∈ Univ | (set ℕ) x = true}
+
+  set (ℕ × ℕ) := λ x. 
+    | true if x : ℕ × ℕ
+    | false otherwise
+  X := {x ∈ Univ | (set (ℕ × ℕ)) x = true}
+
+  set (set (ℕ × ℕ)) := λ x. 
+    | true if x: set (ℕ × ℕ)
+    | false otherwise
+
+  set (set (ℕ × ℕ)) := λ x. 
+    | true if (set (ℕ × ℕ)) x = true
+    | false otherwise
+-/
+#reduce (set ℕ) 
 -- {{1,..∞},{1,..,∞},..}
 -- set (set ℕ) := {x ∈ Univ | x : set ℕ}
 --              ⇔ {x ∈ Univ | x ∈ 𝒫 (N)} -- Is powerset ???
