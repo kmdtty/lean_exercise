@@ -187,3 +187,34 @@ constructors:
 nat.zero : ℕ
 nat.succ : ℕ → ℕ
 -/
+
+constant α : Type u
+constant β : Type u
+#check α
+#check α × β 
+
+def tc2 : ℕ × ℕ := (1,2)
+
+#check tc2 
+
+def is_function  (f: set (α × β)) (X:set α) (Y: set β): Prop := 
+f ⊆ X.prod Y ∧ ∀x ∈ X,∃!y ∈ Y, (x,y) ∈ f
+
+def Functions (X : set α) (Y: set β): set (set (α × β)) :=
+{f | f ∈ 𝒫 (X.prod Y) ∧ (is_function f X Y)}
+
+def Functions2 (X : set α) (Y: set β) :=
+{f | f ∈ 𝒫 (X.prod Y) ∧ (is_function f X Y)}
+
+#check Functions2
+-- Functions2 : set α → set β → set (set (α × β))
+
+def setSetTc2 : set (set (ℕ × ℕ)) := {{(1,2),(2,3)},{(4,5)}}
+
+-- set T :=  {x ∈ Univ | x : T}
+
+-- set (ℕ × ℕ) := {x ∈ Univ | x : ℕ × ℕ} where ℕ is nat in Lean
+--                ⇔ {x ∈ Univ | x ∈ (N × N)} where N is natural number
+-- set (set ( ℕ × ℕ )) := {x ∈ Univ | x: set (ℕ × ℕ)}
+--                       ⇔ {x ∈ Univ | x ∈ (N × N)}  --?? same ??
+
