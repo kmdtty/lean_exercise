@@ -209,8 +209,6 @@ def Functions2 (X : set α) (Y: set β) :=
 #check Functions2
 -- Functions2 : set α → set β → set (set (α × β))
 
-def setSetTc2 : set (set (ℕ × ℕ)) := {{(1,2),(2,3)},{(4,5)}}
-
 -- set T :=  {x ∈ Univ | x : T}
 
 
@@ -246,3 +244,9 @@ def setSetTc2 : set (set (ℕ × ℕ)) := {{(1,2),(2,3)},{(4,5)}}
 -- set (set ℕ) := {x ∈ Univ | x : set ℕ}
 --              ⇔ {x ∈ Univ | x ∈ 𝒫 (N)} -- Is powerset ???
 
+def setTc2 : set (ℕ × ℕ) := {(1,2),(3,4)}
+-- setTc ⊂ ℕ × ℕ
+
+def setSetTc2 : set (set (ℕ × ℕ)) := {{(1,2),(2,3)},{(4,5)}}
+
+-- setSetTc ⊂ 𝒫 (N × N)
