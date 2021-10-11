@@ -250,3 +250,7 @@ def setTc2 : set (ℕ × ℕ) := {(1,2),(3,4)}
 def setSetTc2 : set (set (ℕ × ℕ)) := {{(1,2),(2,3)},{(4,5)}}
 
 -- setSetTc ⊂ 𝒫 (N × N)
+
+def powset2 (A : set Type) : set (set Type) := {x |x ⊂ A}
+
+#check powset2
