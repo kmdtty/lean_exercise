@@ -249,8 +249,27 @@ def setTc2 : set (ℕ × ℕ) := {(1,2),(3,4)}
 
 def setSetTc2 : set (set (ℕ × ℕ)) := {{(1,2),(2,3)},{(4,5)}}
 
+
 -- setSetTc ⊂ 𝒫 (N × N)
 
 def powset2 (A : set Type) : set (set Type) := {x |x ⊂ A}
 
 #check powset2
+
+#check Prop -- Type
+#check Type -- Type 1
+#check Type 1 -- Type 2
+#check Type u -- Type (u+1)
+/-
+set ℕ
+  A ⊂ {x ∈ Univ | (set ℕ) x}
+⇔ A ⊂ {x ∈ Univ | ∀y ∈ Univ. y ∈ ℕ}
+⇔ A ⊂ {x ∈ Univ | x ∈ ℕ}
+⇔ A ⊂ ℕ
+--------------------------------
+  set (set ℕ)
+⇔ set (A ⊂ ℕ)
+⇔ S ⊂ {x ∈ Univ | (set (set ℕ)) x}
+⇔ S ⊂ {x ∈ Univ | x ∈ (A ⊂ ℕ)}
+⇔ 
+-/
