@@ -1,10 +1,9 @@
 import set_theory.cardinal
 
 -- import init.classical
-open cardinal
 
-#eval if 2 < 7 then 1 else 0 
-
+variable α : Type*
+variable β : Type*
 
 -- variables 0 1 : ℕ 
 /--
@@ -22,10 +21,10 @@ inductive bool : Type
 
 -- to solve type error on "if .. then ..else.." we need the following two lines
 -- `noncomuptable theory` is alread defined above to open_local cardinal
-open_locale classical 
+-- open_locale classical 
 
 --- wrong definition? 
-/-- `indicator' s x` is `1` if `x ∈ s`, `0` otherwise. -/
+/- `indicator' s x` is `1` if `x ∈ s`, `0` otherwise. -/
 --def indicator' (s : set α) (x : α) : ℕ := if x ∈ s then 1 else 0
 
 
@@ -72,9 +71,6 @@ by refl
 -- Define powerset
 variable {U : Type}
 
-
-example (A B : set U) (h : B ∈ powerset2 A) : B ⊆ A :=
-h
 def y2 : set ℕ := {1,2}
 variable {y : set ℕ}
 #check set ℕ
@@ -188,8 +184,7 @@ nat.zero : ℕ
 nat.succ : ℕ → ℕ
 -/
 
-constant α : Type u
-constant β : Type u
+
 #check α
 #check α × β 
 
@@ -273,3 +268,20 @@ set ℕ
 ⇔ S ⊂ {x ∈ Univ | x ∈ (A ⊂ ℕ)}
 ⇔ 
 -/
+
+open set
+
+variable {α₁ : Type*}
+
+#check univ 
+#check @univ
+#check @univ α
+variable {a1 : α₁}
+
+--def a2 : α = x
+
+-- if we 
+#check a1 ∈ (@univ α₁)
+#reduce a1 ∈ (@univ α₁)  -- true
+
+variables {X₁ Y₁: @univ α}
