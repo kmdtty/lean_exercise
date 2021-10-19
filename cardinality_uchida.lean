@@ -138,3 +138,6 @@ by refl
 
 theorem powerset_A_equinumerous_set_of_function_from_A_to_bool : 
 (𝒫 A) ∼ (𝔹₂ ^ A) := sorry
+
+theorem powerset_A_equinumerous_set_of_function 
+{X: set α} {Y: α → Prop} : X ∼ Y := sorry
