@@ -285,3 +285,7 @@ variable {a1 : α₁}
 #reduce a1 ∈ (@univ α₁)  -- true
 
 variables {X₁ Y₁: @univ α}
+
+--
+#check {n: ℕ | n ≤ 4} -- set ℕ (it is a subset of ℕ)
+#check {n: ℕ // n ≤ 4} -- Type (it is called subtype)
