@@ -124,6 +124,17 @@ def 𝔹₂: set 𝔹 := {𝔹.zero, 𝔹.one}
 #check α -- α : Type u_1
 def B₂A: set (set (α × 𝔹)) := 𝔹₂ ^ A
 
+#check (univ : set Prop)
+#check (univ : set bool)
+
+#check {a: α → Prop | true} -- = (univ:set A → Prop)
+#check {a: A → Prop | true} -- {a : ↥A → Prop | true} : set (↥A → Prop)
+
+#check @univ Prop -- univ : set Prop
+#check Functions A (univ:set Prop)
+#check Functions A (univ:set bool)
+#check Functions A (@univ Prop)
+
 #check are_iso 𝒫(A) 𝒫(B) -- (𝒫 A) ∼ 𝒫 B : Prop
 #check (𝒫 A) ∼ (𝒫 B) 
 #check are_iso (𝒫 A) (𝔹₂ ^ A)
@@ -131,6 +142,8 @@ def B₂A: set (set (α × 𝔹)) := 𝔹₂ ^ A
 #check (𝒫 A) ∼ (𝔹₂ ^ A) -- 𝒫 A ~ 𝔹₂ ^ A : Prop
 #reduce (𝒫 A) ∼ (𝔹₂ ^ A)
 #reduce are_iso (𝒫 A) (𝔹₂ ^ A)
+
+#check are_iso (𝒫 A) {a: A → Prop | true}
 
 theorem powerset_A_equiv_powerset_A:
 (𝒫 A) = (𝒫 A) :=
