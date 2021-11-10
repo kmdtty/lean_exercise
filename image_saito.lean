@@ -69,3 +69,16 @@ theorem graph_of_eq_relation_f_is_inverse_image_of_diagonal_set
 {f : α → β}:
 graph (eq_relation f) = preimage (fxf f) (diagonal (range f))
  :=  sorry
+
+def equivalence_class (a: α) (f: α → β) : set α :=
+{x:α | f x  = f a}
+
+/-
+Proposition 2.6.1 (2.b)
+
+For f: X → Y, the equivalence class a ∈ X on the equivalence
+relation of f, is a filber f⁻¹ (f {a}).
+-/
+theorem equivalence_class_is_fiber {f: α → β} {a:α}:
+(equivalence_class a f) = preimage f (image f {a}) :=
+sorry
