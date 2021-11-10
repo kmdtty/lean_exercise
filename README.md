@@ -1,7 +1,7 @@
 lean_exercise
 =============
 
-A struggle on lean prover against set theory & general topology
+A struggle with lean prover against set theory & general topology
 
 How to initialize 
 ---------------
