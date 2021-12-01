@@ -154,3 +154,16 @@ theorem powerset_A_equinumerous_set_of_function_from_A_to_bool :
 
 theorem powerset_A_equinumerous_set_of_function 
 {X: set α} {Y: α → Prop} : X ∼ Y := sorry
+
+def is_surjective (f: A → B) : Prop :=
+ ∀b:B, ∃a:A, f(a) = b 
+
+def is_epi (f: A → B) : Prop := 
+ ∀a:A,∀b:B, ∀⦃g h: B→C⦄, (g ∘ f) a = (h ∘ f) a → g b = h b
+
+#check is_surjective
+#check is_epi 
+
+theorem epi_is_surjective_on_set {f: A → B} :
+(is_epi f) := sorry 
+-- (is_epi f) ↔ (is_surjective f) := sorry
