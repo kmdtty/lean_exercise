@@ -7,7 +7,7 @@ open set
 open function
 
 universe u
-variables {α β : Type*}
+variables {α β γ: Type*}
 variables {A B C: set α}
 variable D : set β
 variables {a b c : Type u}
@@ -155,15 +155,25 @@ theorem powerset_A_equinumerous_set_of_function_from_A_to_bool :
 theorem powerset_A_equinumerous_set_of_function 
 {X: set α} {Y: α → Prop} : X ∼ Y := sorry
 
-def is_surjective (f: A → B) : Prop :=
- ∀b:B, ∃a:A, f(a) = b 
+def is_surjective (f: α → β) : Prop :=
+ ∀b:β, ∃a:α, f(a) = b 
 
-def is_epi (f: A → B) : Prop := 
- ∀a:A,∀b:B, ∀⦃g h: B→C⦄, (g ∘ f) a = (h ∘ f) a → g b = h b
+def is_epi (f: α → β) : Prop := 
+ ∀a:α,∀b:β, ∀⦃g h: β→γ⦄, (g (f a) = h (f a)) → (g b = h b)
 
 #check is_surjective
-#check is_epi 
+#check is_epi
 
-theorem epi_is_surjective_on_set {f: A → B} :
+variable b1 : β 
+variable a1 : α
+def f2 {b1: β} (a: α) : β := b1
+variable f3: α → β
+#check f2
+#check f3
+#reduce (f2 a1)
+#print is_epi
+#reduce is_epi f2
+
+theorem epi_is_surjective_on_set {f: α → β} :
 (is_epi f) := sorry 
 -- (is_epi f) ↔ (is_surjective f) := sorry
