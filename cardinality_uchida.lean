@@ -158,22 +158,37 @@ theorem powerset_A_equinumerous_set_of_function
 def is_surjective (f: α → β) : Prop :=
  ∀b:β, ∃a:α, f(a) = b 
 
-def is_epi (f: α → β) : Prop := 
- ∀a:α,∀b:β, ∀⦃g h: β→γ⦄, (g (f a) = h (f a)) → (g b = h b)
+def is_epi  (f: α → β) : Prop := 
+--  ∀⦃g h:β→ γ⦄, (g ∘ f = h ∘ f) → g = h 
+ ∀a:α,∀b:β, ∀⦃ g h:β→ γ⦄, ((g ∘ f) a = (h ∘ f) a) → (g b = h b)
+-- Try to use Functions, for functions as objects?
+
+-- -- ∀a:α, ∀b:B ,f a = f b
 
 #check is_surjective
 #check is_epi
+#print is_epi 
 
 variable b1 : β 
 variable a1 : α
 def f2 {b1: β} (a: α) : β := b1
+def f4 (a: α) : α := a
 variable f3: α → β
 #check f2
 #check f3
 #reduce (f2 a1)
-#print is_epi
+#reduce is_surjective f2
+#check is_epi f2
+-- Why this causes error?
+/-
+unexpected occurrence of delayed abstraction macro
+  ?M_1[ᾰ]
+term
+  ?M_1
+is not a metavariable in this contex
+-/
 #reduce is_epi f2
 
 theorem epi_is_surjective_on_set {f: α → β} :
-(is_epi f) := sorry 
+is_epi f := sorry 
 -- (is_epi f) ↔ (is_surjective f) := sorry
